@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Payment & Insurance - DR T DENTAL</title>
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-64X2PHHQJD"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-64X2PHHQJD');
+  </script>
+  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --text: #333333;
+      --card-bg: #f8f8f8;
+      --accent: #009688;
+    }
+
+    [data-theme="dark"] {
+      --bg: #121212;
+      --text: #e0e0e0;
+      --card-bg: #1f1f1f;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    .payment-hero {
+      background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
+                  url('https://images.unsplash.com/photo-1559757148-5c350d0d3c56?q=80&w=2070&auto=format&fit=crop') center/cover;
+      color: white;
+      padding: 6rem 0;
+      text-align: center;
+    }
+
+    .payment-card {
+      background: var(--bg);
+      border-radius: 15px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+      height: 100%;
+    }
+
+    .payment-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .payment-icon {
+      font-size: 3rem;
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+
+    .form-control {
+      background: var(--bg);
+      border: 2px solid var(--card-bg);
+      color: var(--text);
+      border-radius: 10px;
+      padding: 0.75rem 1rem;
+      transition: all 0.3s ease;
+    }
+
+    .form-control:focus {
+      background: var(--bg);
+      border-color: var(--accent);
+      color: var(--text);
+      box-shadow: 0 0 0 0.2rem rgba(0, 150, 136, 0.25);
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      border: none;
+      border-radius: 10px;
+      padding: 0.75rem 2rem;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .btn-primary:hover {
+      background: #00796b;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .insurance-card {
+      background: var(--accent);
+      color: white;
+      border-radius: 15px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .payment-method {
+      background: var(--card-bg);
+      border: 2px solid transparent;
+      border-radius: 10px;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .payment-method:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    .payment-method.selected {
+      border-color: var(--accent);
+      background: rgba(0, 150, 136, 0.1);
+    }
+
+    .payment-method-icon {
+      font-size: 2rem;
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+
+    .payment-plan {
+      background: var(--bg);
+      border: 2px solid var(--card-bg);
+      border-radius: 15px;
+      padding: 2rem;
+      margin-bottom: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    .payment-plan:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    .payment-plan.selected {
+      border-color: var(--accent);
+      background: rgba(0, 150, 136, 0.05);
+    }
+
+    .plan-price {
+      font-size: 2rem;
+      font-weight: bold;
+      color: var(--accent);
+    }
+
+    .security-badge {
+      background: var(--card-bg);
+      border-radius: 10px;
+      padding: 1rem;
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    .security-icon {
+      font-size: 2rem;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+    }
+
+    .book-now-btn {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: var(--accent);
+      color: white;
+      padding: 1rem 2rem;
+      border-radius: 50px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      z-index: 1000;
+      transition: transform 0.3s ease;
+      text-decoration: none;
+    }
+
+    .book-now-btn:hover {
+      transform: translateY(-5px);
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">DR T DENTAL</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="services.html">Services</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+          <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+          <li class="nav-item">
+            <button id="themeToggle" class="btn btn-outline-light ms-3">🌙</button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Payment Hero -->
+  <section class="payment-hero">
+    <div class="container">
+      <h1 class="display-4 fw-bold mb-4">Payment & Insurance</h1>
+      <p class="lead">Flexible payment options and insurance support for quality dental care</p>
+    </div>
+  </section>
+
+  <!-- Insurance Verification -->
+  <section class="py-5">
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-lg-8">
+          <div class="payment-card">
+            <h3 class="mb-4"><i class="fas fa-shield-alt text-primary me-2"></i>Insurance Verification</h3>
+            <p class="mb-4">Check your insurance coverage and benefits before your appointment</p>
+            <form id="insuranceForm">
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label for="insuranceProvider" class="form-label">Insurance Provider *</label>
+                  <select class="form-control" id="insuranceProvider" name="insuranceProvider" required>
+                    <option value="">Select Provider</option>
+                    <option value="delta">Delta Dental</option>
+                    <option value="aetna">Aetna</option>
+                    <option value="cigna">Cigna</option>
+                    <option value="metlife">MetLife</option>
+                    <option value="bluecross">Blue Cross Blue Shield</option>
+                    <option value="humana">Humana</option>
+                    <option value="other">Other</option>
+                  </select>
+                </div>
+                <div class="col-md-6">
+                  <label for="memberId" class="form-label">Member ID *</label>
+                  <input type="text" class="form-control" id="memberId" name="memberId" required>
+                </div>
+                <div class="col-md-6">
+                  <label for="groupNumber" class="form-label">Group Number</label>
+                  <input type="text" class="form-control" id="groupNumber" name="groupNumber">
+                </div>
+                <div class="col-md-6">
+                  <label for="dateOfBirth" class="form-label">Date of Birth *</label>
+                  <input type="date" class="form-control" id="dateOfBirth" name="dateOfBirth" required>
+                </div>
+                <div class="col-12">
+                  <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-search me-2"></i>Verify Insurance
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="insurance-card">
+            <h4><i class="fas fa-check-circle me-2"></i>Accepted Insurance</h4>
+            <p>We accept most major insurance plans including:</p>
+            <ul class="list-unstyled">
+              <li><i class="fas fa-check me-2"></i>Delta Dental</li>
+              <li><i class="fas fa-check me-2"></i>Aetna</li>
+              <li><i class="fas fa-check me-2"></i>Cigna</li>
+              <li><i class="fas fa-check me-2"></i>MetLife</li>
+              <li><i class="fas fa-check me-2"></i>Blue Cross Blue Shield</li>
+              <li><i class="fas fa-check me-2"></i>Humana</li>
+            </ul>
+            <p class="mb-0"><strong>Don't see your plan?</strong> Contact us to verify coverage.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Payment Methods -->
+  <section class="py-5" style="background: var(--card-bg);">
+    <div class="container">
+      <h2 class="text-center mb-5">Choose Your Payment Method</h2>
+      <div class="row g-4">
+        <div class="col-md-6 col-lg-3">
+          <div class="payment-method text-center" data-method="credit">
+            <i class="fas fa-credit-card payment-method-icon"></i>
+            <h5>Credit/Debit Cards</h5>
+            <p>Visa, MasterCard, American Express, Discover</p>
+            <small class="text-muted">Secure online processing</small>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="payment-method text-center" data-method="carecredit">
+            <i class="fas fa-heart payment-method-icon"></i>
+            <h5>CareCredit</h5>
+            <p>Healthcare financing with 0% interest options</p>
+            <small class="text-muted">Apply online in minutes</small>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="payment-method text-center" data-method="insurance">
+            <i class="fas fa-shield-alt payment-method-icon"></i>
+            <h5>Insurance</h5>
+            <p>Direct billing to your insurance provider</p>
+            <small class="text-muted">We handle the paperwork</small>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="payment-method text-center" data-method="payment-plan">
+            <i class="fas fa-calendar-alt payment-method-icon"></i>
+            <h5>Payment Plans</h5>
+            <p>Flexible monthly payment options</p>
+            <small class="text-muted">No credit check required</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Payment Plans -->
+  <section class="py-5">
+    <div class="container">
+      <h2 class="text-center mb-5">Flexible Payment Plans</h2>
+      <div class="row g-4">
+        <div class="col-lg-4">
+          <div class="payment-plan text-center" data-plan="basic">
+            <h4>Basic Plan</h4>
+            <div class="plan-price mb-3">$99/month</div>
+            <ul class="list-unstyled mb-4">
+              <li><i class="fas fa-check text-success me-2"></i>2 cleanings per year</li>
+              <li><i class="fas fa-check text-success me-2"></i>2 exams per year</li>
+              <li><i class="fas fa-check text-success me-2"></i>X-rays included</li>
+              <li><i class="fas fa-check text-success me-2"></i>20% off other services</li>
+            </ul>
+            <button class="btn btn-outline-primary" onclick="selectPlan('basic')">Select Plan</button>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="payment-plan text-center" data-plan="premium">
+            <h4>Premium Plan</h4>
+            <div class="plan-price mb-3">$199/month</div>
+            <ul class="list-unstyled mb-4">
+              <li><i class="fas fa-check text-success me-2"></i>4 cleanings per year</li>
+              <li><i class="fas fa-check text-success me-2"></i>4 exams per year</li>
+              <li><i class="fas fa-check text-success me-2"></i>All X-rays included</li>
+              <li><i class="fas fa-check text-success me-2"></i>30% off other services</li>
+              <li><i class="fas fa-check text-success me-2"></i>Teeth whitening included</li>
+            </ul>
+            <button class="btn btn-primary" onclick="selectPlan('premium')">Select Plan</button>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="payment-plan text-center" data-plan="family">
+            <h4>Family Plan</h4>
+            <div class="plan-price mb-3">$299/month</div>
+            <ul class="list-unstyled mb-4">
+              <li><i class="fas fa-check text-success me-2"></i>Up to 4 family members</li>
+              <li><i class="fas fa-check text-success me-2"></i>2 cleanings per person</li>
+              <li><i class="fas fa-check text-success me-2"></i>All exams included</li>
+              <li><i class="fas fa-check text-success me-2"></i>40% off other services</li>
+              <li><i class="fas fa-check text-success me-2"></i>Emergency care priority</li>
+            </ul>
+            <button class="btn btn-outline-primary" onclick="selectPlan('family')">Select Plan</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Online Payment Form -->
+  <section class="py-5" style="background: var(--card-bg);">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <div class="payment-card">
+            <h3 class="mb-4"><i class="fas fa-credit-card text-primary me-2"></i>Secure Online Payment</h3>
+            <form id="paymentForm">
+              <div class="row g-3">
+                <div class="col-12">
+                  <label for="cardNumber" class="form-label">Card Number *</label>
+                  <input type="text" class="form-control" id="cardNumber" name="cardNumber" 
+                         placeholder="1234 5678 9012 3456" required>
+                </div>
+                <div class="col-md-6">
+                  <label for="expiryDate" class="form-label">Expiry Date *</label>
+                  <input type="text" class="form-control" id="expiryDate" name="expiryDate" 
+                         placeholder="MM/YY" required>
+                </div>
+                <div class="col-md-6">
+                  <label for="cvv" class="form-label">CVV *</label>
+                  <input type="text" class="form-control" id="cvv" name="cvv" 
+                         placeholder="123" required>
+                </div>
+                <div class="col-12">
+                  <label for="cardholderName" class="form-label">Cardholder Name *</label>
+                  <input type="text" class="form-control" id="cardholderName" name="cardholderName" 
+                         placeholder="John Doe" required>
+                </div>
+                <div class="col-12">
+                  <label for="billingAddress" class="form-label">Billing Address *</label>
+                  <textarea class="form-control" id="billingAddress" name="billingAddress" 
+                            rows="3" placeholder="Enter your billing address" required></textarea>
+                </div>
+                <div class="col-md-6">
+                  <label for="city" class="form-label">City *</label>
+                  <input type="text" class="form-control" id="city" name="city" required>
+                </div>
+                <div class="col-md-3">
+                  <label for="state" class="form-label">State *</label>
+                  <input type="text" class="form-control" id="state" name="state" required>
+                </div>
+                <div class="col-md-3">
+                  <label for="zipCode" class="form-label">ZIP Code *</label>
+                  <input type="text" class="form-control" id="zipCode" name="zipCode" required>
+                </div>
+                <div class="col-12">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="saveCard" name="saveCard">
+                    <label class="form-check-label" for="saveCard">
+                      Save this card for future payments
+                    </label>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <button type="submit" class="btn btn-primary btn-lg w-100">
+                    <i class="fas fa-lock me-2"></i>Process Payment Securely
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Security & Trust -->
+  <section class="py-5">
+    <div class="container">
+      <h2 class="text-center mb-5">Your Security is Our Priority</h2>
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="security-badge">
+            <i class="fas fa-lock security-icon"></i>
+            <h5>SSL Encryption</h5>
+            <p>All payments are encrypted with bank-level security</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="security-badge">
+            <i class="fas fa-shield-alt security-icon"></i>
+            <h5>PCI Compliant</h5>
+            <p>We meet the highest standards for payment security</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="security-badge">
+            <i class="fas fa-user-shield security-icon"></i>
+            <h5>Privacy Protected</h5>
+            <p>Your personal information is never shared</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Book Now Button -->
+  <a href="appointment.html" class="book-now-btn">
+    <i class="fas fa-calendar-check me-2"></i>Book Now
+  </a>
+
+  <!-- Footer -->
+  <footer class="py-4" style="background: var(--card-bg);">
+    <div class="container text-center">
+      <p class="mb-0">&copy; 2025 DR T DENTAL. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Theme toggle functionality
+    const toggleBtn = document.getElementById('themeToggle');
+    const htmlEl = document.documentElement;
+
+    toggleBtn.addEventListener('click', () => {
+      const currentTheme = htmlEl.getAttribute('data-theme');
+      const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+      htmlEl.setAttribute('data-theme', newTheme);
+      toggleBtn.textContent = newTheme === 'light' ? '🌙' : '☀️';
+    });
+
+    // Payment method selection
+    document.querySelectorAll('.payment-method').forEach(method => {
+      method.addEventListener('click', function() {
+        document.querySelectorAll('.payment-method').forEach(m => m.classList.remove('selected'));
+        this.classList.add('selected');
+        
+        const selectedMethod = this.getAttribute('data-method');
+        console.log('Selected payment method:', selectedMethod);
+      });
+    });
+
+    // Payment plan selection
+    function selectPlan(plan) {
+      document.querySelectorAll('.payment-plan').forEach(p => p.classList.remove('selected'));
+      document.querySelector(`[data-plan="${plan}"]`).classList.add('selected');
+      
+      console.log('Selected plan:', plan);
+      
+      gtag('event', 'payment_plan_selected', {
+        event_category: 'payment',
+        event_label: plan
+      });
+    }
+
+    // Insurance verification
+    document.getElementById('insuranceForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const formData = new FormData(this);
+      const data = Object.fromEntries(formData);
+      
+      // Simulate insurance verification
+      alert('Insurance verification in progress... This would typically check with your provider.');
+      
+      gtag('event', 'insurance_verification', {
+        event_category: 'payment',
+        event_label: data.insuranceProvider
+      });
+    });
+
+    // Payment form submission
+    document.getElementById('paymentForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const formData = new FormData(this);
+      const data = Object.fromEntries(formData);
+      
+      // Simulate payment processing
+      alert('Payment processing... This would typically process through a secure payment gateway.');
+      
+      gtag('event', 'payment_submitted', {
+        event_category: 'payment',
+        event_label: 'Credit Card Payment'
+      });
+    });
+
+    // Card number formatting
+    document.getElementById('cardNumber').addEventListener('input', function(e) {
+      let value = e.target.value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
+      let formattedValue = value.match(/.{1,4}/g)?.join(' ') || value;
+      e.target.value = formattedValue;
+    });
+
+    // Expiry date formatting
+    document.getElementById('expiryDate').addEventListener('input', function(e) {
+      let value = e.target.value.replace(/\D/g, '');
+      if (value.length >= 2) {
+        value = value.slice(0, 2) + '/' + value.slice(2, 4);
+      }
+      e.target.value = value;
+    });
+
+    // CVV validation
+    document.getElementById('cvv').addEventListener('input', function(e) {
+      e.target.value = e.target.value.replace(/\D/g, '').slice(0, 4);
+    });
+  </script>
+</body>
+</html>

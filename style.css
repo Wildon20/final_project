@@ -1,0 +1,16 @@
+/* style.css */
+body {
+    background-color: #65e781;
+    font-family: Arial, sans-serif;
+}
+
+h1 {
+    color: rgb(21, 20, 22);
+    text-align: center;
+}
+
+p {
+    color: #333;
+    text-align: left;
+    
+}

@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Book Appointment - DR T DENTAL</title>
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-64X2PHHQJD"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-64X2PHHQJD');
+  </script>
+  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --text: #333333;
+      --card-bg: #f8f8f8;
+      --accent: #009688;
+    }
+
+    [data-theme="dark"] {
+      --bg: #121212;
+      --text: #e0e0e0;
+      --card-bg: #1f1f1f;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    .appointment-hero {
+      background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
+                  url('https://images.unsplash.com/photo-1559757148-5c350d0d3c56?q=80&w=2070&auto=format&fit=crop') center/cover;
+      color: white;
+      padding: 6rem 0;
+      text-align: center;
+    }
+
+    .booking-card {
+      background: var(--bg);
+      border-radius: 15px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .booking-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .service-option {
+      background: var(--card-bg);
+      border: 2px solid transparent;
+      border-radius: 10px;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .service-option:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    .service-option.selected {
+      border-color: var(--accent);
+      background: rgba(0, 150, 136, 0.1);
+    }
+
+    .service-icon {
+      font-size: 2rem;
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+
+    .form-control {
+      background: var(--bg);
+      border: 2px solid var(--card-bg);
+      color: var(--text);
+      border-radius: 10px;
+      padding: 0.75rem 1rem;
+      transition: all 0.3s ease;
+    }
+
+    .form-control:focus {
+      background: var(--bg);
+      border-color: var(--accent);
+      color: var(--text);
+      box-shadow: 0 0 0 0.2rem rgba(0, 150, 136, 0.25);
+    }
+
+    .form-control::placeholder {
+      color: var(--text);
+      opacity: 0.6;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      border: none;
+      border-radius: 10px;
+      padding: 0.75rem 2rem;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .btn-primary:hover {
+      background: #00796b;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .booking-steps {
+      background: var(--accent);
+      color: white;
+      padding: 2rem 0;
+      margin-bottom: 3rem;
+    }
+
+    .step-item {
+      text-align: center;
+      position: relative;
+    }
+
+    .step-number {
+      width: 50px;
+      height: 50px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1rem;
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+
+    .step-item.active .step-number {
+      background: white;
+      color: var(--accent);
+    }
+
+    .step-line {
+      position: absolute;
+      top: 25px;
+      left: 60%;
+      width: 80%;
+      height: 2px;
+      background: rgba(255, 255, 255, 0.3);
+      z-index: 1;
+    }
+
+    .step-item:last-child .step-line {
+      display: none;
+    }
+
+    .insurance-info {
+      background: var(--card-bg);
+      border-radius: 15px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .insurance-icon {
+      font-size: 2.5rem;
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+
+    .payment-options {
+      background: var(--bg);
+      border-radius: 15px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      border: 2px solid var(--accent);
+    }
+
+    .payment-icon {
+      font-size: 2rem;
+      color: var(--accent);
+      margin-right: 0.5rem;
+    }
+
+    .book-now-btn {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: var(--accent);
+      color: white;
+      padding: 1rem 2rem;
+      border-radius: 50px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      z-index: 1000;
+      transition: transform 0.3s ease;
+      text-decoration: none;
+    }
+
+    .book-now-btn:hover {
+      transform: translateY(-5px);
+      color: white;
+    }
+
+    .progress-bar {
+      height: 8px;
+      background: var(--card-bg);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 2rem;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: var(--accent);
+      transition: width 0.3s ease;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">DR T DENTAL</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="services.html">Services</a></li>
+          <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="testimonials.html">Testimonials</a></li>
+          <li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
+          <li class="nav-item"><a class="nav-link" href="patient-portal.html">Patient Portal</a></li>
+          <li class="nav-item"><a class="nav-link" href="payment.html">Payment</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+          <li class="nav-item">
+            <button id="themeToggle" class="btn btn-outline-light ms-3">🌙</button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Appointment Hero -->
+  <section class="appointment-hero">
+    <div class="container">
+      <h1 class="display-4 fw-bold mb-4">Book Your Appointment</h1>
+      <p class="lead">Take the first step towards your perfect smile. Book your consultation today!</p>
+    </div>
+  </section>
+
+  <!-- Booking Steps -->
+  <section class="booking-steps">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-3">
+          <div class="step-item active">
+            <div class="step-number">1</div>
+            <h6>Select Service</h6>
+            <div class="step-line"></div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="step-item">
+            <div class="step-number">2</div>
+            <h6>Choose Date & Time</h6>
+            <div class="step-line"></div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="step-item">
+            <div class="step-number">3</div>
+            <h6>Patient Information</h6>
+            <div class="step-line"></div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="step-item">
+            <div class="step-number">4</div>
+            <h6>Confirmation</h6>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Progress Bar -->
+  <section class="py-3">
+    <div class="container">
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressBar" style="width: 25%"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Appointment Form -->
+  <section class="py-5">
+    <div class="container">
+      <form id="appointmentForm">
+        <!-- Step 1: Service Selection -->
+        <div class="booking-step" id="step1">
+          <div class="row">
+            <div class="col-lg-8">
+              <div class="booking-card">
+                <h3 class="mb-4">What service do you need?</h3>
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <div class="service-option" data-service="consultation">
+                      <i class="fas fa-user-md service-icon"></i>
+                      <h5>Free Consultation</h5>
+                      <p>Initial examination and treatment planning</p>
+                      <small class="text-muted">Duration: 30 minutes</small>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="service-option" data-service="cleaning">
+                      <i class="fas fa-tooth service-icon"></i>
+                      <h5>Teeth Cleaning</h5>
+                      <p>Professional cleaning and examination</p>
+                      <small class="text-muted">Duration: 45 minutes</small>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="service-option" data-service="whitening">
+                      <i class="fas fa-sun service-icon"></i>
+                      <h5>Teeth Whitening</h5>
+                      <p>Professional in-office whitening</p>
+                      <small class="text-muted">Duration: 1 hour</small>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="service-option" data-service="emergency">
+                      <i class="fas fa-exclamation-triangle service-icon"></i>
+                      <h5>Emergency Care</h5>
+                      <p>Urgent dental treatment</p>
+                      <small class="text-muted">Duration: Varies</small>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="service-option" data-service="orthodontics">
+                      <i class="fas fa-align-center service-icon"></i>
+                      <h5>Orthodontics</h5>
+                      <p>Braces and alignment consultation</p>
+                      <small class="text-muted">Duration: 1 hour</small>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="service-option" data-service="implants">
+                      <i class="fas fa-screwdriver service-icon"></i>
+                      <h5>Dental Implants</h5>
+                      <p>Implant consultation and planning</p>
+                      <small class="text-muted">Duration: 1 hour</small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="insurance-info">
+                <i class="fas fa-shield-alt insurance-icon"></i>
+                <h4>Insurance & Payment</h4>
+                <p>We accept most insurance plans and offer flexible payment options.</p>
+                <ul class="list-unstyled">
+                  <li><i class="fas fa-check text-success me-2"></i>Most insurance accepted</li>
+                  <li><i class="fas fa-check text-success me-2"></i>Flexible payment plans</li>
+                  <li><i class="fas fa-check text-success me-2"></i>CareCredit financing</li>
+                  <li><i class="fas fa-check text-success me-2"></i>Credit/debit cards</li>
+                </ul>
+                <a href="contact.html" class="btn btn-outline-primary mt-3">Learn More</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 2: Date & Time Selection -->
+        <div class="booking-step" id="step2" style="display: none;">
+          <div class="row">
+            <div class="col-lg-8">
+              <div class="booking-card">
+                <h3 class="mb-4">When would you like to visit?</h3>
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <label for="appointmentDate" class="form-label">Preferred Date *</label>
+                    <input type="date" class="form-control" id="appointmentDate" name="appointmentDate" required>
+                  </div>
+                  <div class="col-md-6">
+                    <label for="appointmentTime" class="form-label">Preferred Time *</label>
+                    <select class="form-control" id="appointmentTime" name="appointmentTime" required>
+                      <option value="">Select time</option>
+                      <option value="09:00">9:00 AM</option>
+                      <option value="10:00">10:00 AM</option>
+                      <option value="11:00">11:00 AM</option>
+                      <option value="12:00">12:00 PM</option>
+                      <option value="14:00">2:00 PM</option>
+                      <option value="15:00">3:00 PM</option>
+                      <option value="16:00">4:00 PM</option>
+                      <option value="17:00">5:00 PM</option>
+                    </select>
+                  </div>
+                  <div class="col-12">
+                    <label for="urgency" class="form-label">How soon do you need this appointment?</label>
+                    <select class="form-control" id="urgency" name="urgency">
+                      <option value="routine">Routine - Within 2 weeks</option>
+                      <option value="soon">Soon - Within 1 week</option>
+                      <option value="urgent">Urgent - Within 2-3 days</option>
+                      <option value="emergency">Emergency - Same day</option>
+                    </select>
+                  </div>
+                  <div class="col-12">
+                    <label for="notes" class="form-label">Additional Notes</label>
+                    <textarea class="form-control" id="notes" name="notes" rows="3" 
+                              placeholder="Any specific concerns or requests..."></textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="payment-options">
+                <h4><i class="fas fa-credit-card payment-icon"></i>Payment Options</h4>
+                <p>Choose how you'd like to pay for your treatment:</p>
+                <div class="form-check mb-2">
+                  <input class="form-check-input" type="radio" name="paymentMethod" id="insurance" value="insurance">
+                  <label class="form-check-label" for="insurance">Use Insurance</label>
+                </div>
+                <div class="form-check mb-2">
+                  <input class="form-check-input" type="radio" name="paymentMethod" id="selfPay" value="selfPay">
+                  <label class="form-check-label" for="selfPay">Self Pay</label>
+                </div>
+                <div class="form-check mb-2">
+                  <input class="form-check-input" type="radio" name="paymentMethod" id="paymentPlan" value="paymentPlan">
+                  <label class="form-check-label" for="paymentPlan">Payment Plan</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="paymentMethod" id="careCredit" value="careCredit">
+                  <label class="form-check-label" for="careCredit">CareCredit</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 3: Patient Information -->
+        <div class="booking-step" id="step3" style="display: none;">
+          <div class="row">
+            <div class="col-lg-8">
+              <div class="booking-card">
+                <h3 class="mb-4">Tell us about yourself</h3>
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <label for="firstName" class="form-label">First Name *</label>
+                    <input type="text" class="form-control" id="firstName" name="firstName" required>
+                  </div>
+                  <div class="col-md-6">
+                    <label for="lastName" class="form-label">Last Name *</label>
+                    <input type="text" class="form-control" id="lastName" name="lastName" required>
+                  </div>
+                  <div class="col-md-6">
+                    <label for="email" class="form-label">Email Address *</label>
+                    <input type="email" class="form-control" id="email" name="email" required>
+                  </div>
+                  <div class="col-md-6">
+                    <label for="phone" class="form-label">Phone Number *</label>
+                    <input type="tel" class="form-control" id="phone" name="phone" required>
+                  </div>
+                  <div class="col-md-6">
+                    <label for="dateOfBirth" class="form-label">Date of Birth</label>
+                    <input type="date" class="form-control" id="dateOfBirth" name="dateOfBirth">
+                  </div>
+                  <div class="col-md-6">
+                    <label for="gender" class="form-label">Gender</label>
+                    <select class="form-control" id="gender" name="gender">
+                      <option value="">Select gender</option>
+                      <option value="male">Male</option>
+                      <option value="female">Female</option>
+                      <option value="other">Other</option>
+                      <option value="prefer-not">Prefer not to say</option>
+                    </select>
+                  </div>
+                  <div class="col-12">
+                    <label for="address" class="form-label">Address</label>
+                    <textarea class="form-control" id="address" name="address" rows="2" 
+                              placeholder="Street address, city, postal code"></textarea>
+                  </div>
+                  <div class="col-md-6">
+                    <label for="emergencyContact" class="form-label">Emergency Contact</label>
+                    <input type="text" class="form-control" id="emergencyContact" name="emergencyContact" 
+                           placeholder="Name and relationship">
+                  </div>
+                  <div class="col-md-6">
+                    <label for="emergencyPhone" class="form-label">Emergency Phone</label>
+                    <input type="tel" class="form-control" id="emergencyPhone" name="emergencyPhone">
+                  </div>
+                  <div class="col-12">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" id="newPatient" name="newPatient">
+                      <label class="form-check-label" for="newPatient">
+                        I am a new patient
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="insurance-info">
+                <h4>Insurance Information</h4>
+                <p>If you have dental insurance, please provide the following details:</p>
+                <div class="mb-3">
+                  <label for="insuranceProvider" class="form-label">Insurance Provider</label>
+                  <input type="text" class="form-control" id="insuranceProvider" name="insuranceProvider" 
+                         placeholder="e.g., Delta Dental">
+                </div>
+                <div class="mb-3">
+                  <label for="memberId" class="form-label">Member ID</label>
+                  <input type="text" class="form-control" id="memberId" name="memberId">
+                </div>
+                <div class="mb-3">
+                  <label for="groupNumber" class="form-label">Group Number</label>
+                  <input type="text" class="form-control" id="groupNumber" name="groupNumber">
+                </div>
+                <p class="small text-muted">* Insurance information is optional but helps us provide better service</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 4: Confirmation -->
+        <div class="booking-step" id="step4" style="display: none;">
+          <div class="row">
+            <div class="col-lg-8">
+              <div class="booking-card">
+                <h3 class="mb-4">Review Your Appointment</h3>
+                <div id="appointmentSummary">
+                  <!-- Summary will be populated by JavaScript -->
+                </div>
+                <div class="mt-4">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="termsConsent" name="termsConsent" required>
+                    <label class="form-check-label" for="termsConsent">
+                      I agree to the <a href="#" target="_blank">terms and conditions</a> and 
+                      <a href="#" target="_blank">privacy policy</a> *
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="marketingConsent" name="marketingConsent">
+                    <label class="form-check-label" for="marketingConsent">
+                      I would like to receive updates about dental health tips and special offers
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="insurance-info">
+                <h4>What to Expect</h4>
+                <ul class="list-unstyled">
+                  <li><i class="fas fa-clock text-primary me-2"></i>Confirmation email within 1 hour</li>
+                  <li><i class="fas fa-phone text-primary me-2"></i>Follow-up call within 24 hours</li>
+                  <li><i class="fas fa-file-alt text-primary me-2"></i>Pre-appointment forms sent</li>
+                  <li><i class="fas fa-map-marker-alt text-primary me-2"></i>Directions to our office</li>
+                </ul>
+                <div class="alert alert-info">
+                  <i class="fas fa-info-circle me-2"></i>
+                  <strong>Need to reschedule?</strong> Call us at least 24 hours in advance.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Navigation Buttons -->
+        <div class="row mt-4">
+          <div class="col-12 text-center">
+            <button type="button" class="btn btn-secondary btn-lg me-3" id="prevBtn" style="display: none;">
+              <i class="fas fa-arrow-left me-2"></i>Previous
+            </button>
+            <button type="button" class="btn btn-primary btn-lg" id="nextBtn">
+              Next<i class="fas fa-arrow-right ms-2"></i>
+            </button>
+            <button type="submit" class="btn btn-success btn-lg" id="submitBtn" style="display: none;">
+              <i class="fas fa-check me-2"></i>Confirm Appointment
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- Book Now Button -->
+  <a href="contact.html" class="book-now-btn">
+    <i class="fas fa-phone me-2"></i>Call Us
+  </a>
+
+  <!-- Footer -->
+  <footer class="py-4" style="background: var(--card-bg);">
+    <div class="container text-center">
+      <p class="mb-0">&copy; 2025 DR T DENTAL. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Theme toggle functionality
+    const toggleBtn = document.getElementById('themeToggle');
+    const htmlEl = document.documentElement;
+
+    toggleBtn.addEventListener('click', () => {
+      const currentTheme = htmlEl.getAttribute('data-theme');
+      const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+      htmlEl.setAttribute('data-theme', newTheme);
+      toggleBtn.textContent = newTheme === 'light' ? '🌙' : '☀️';
+    });
+
+    // Appointment booking functionality
+    let currentStep = 1;
+    const totalSteps = 4;
+
+    // Service selection
+    document.querySelectorAll('.service-option').forEach(option => {
+      option.addEventListener('click', function() {
+        document.querySelectorAll('.service-option').forEach(opt => opt.classList.remove('selected'));
+        this.classList.add('selected');
+      });
+    });
+
+    // Navigation
+    document.getElementById('nextBtn').addEventListener('click', nextStep);
+    document.getElementById('prevBtn').addEventListener('click', prevStep);
+
+    function nextStep() {
+      if (validateCurrentStep()) {
+        if (currentStep < totalSteps) {
+          document.getElementById(`step${currentStep}`).style.display = 'none';
+          currentStep++;
+          document.getElementById(`step${currentStep}`).style.display = 'block';
+          updateProgress();
+          updateNavigation();
+        }
+      }
+    }
+
+    function prevStep() {
+      if (currentStep > 1) {
+        document.getElementById(`step${currentStep}`).style.display = 'none';
+        currentStep--;
+        document.getElementById(`step${currentStep}`).style.display = 'block';
+        updateProgress();
+        updateNavigation();
+      }
+    }
+
+    function updateProgress() {
+      const progress = (currentStep / totalSteps) * 100;
+      document.getElementById('progressBar').style.width = progress + '%';
+      
+      // Update step indicators
+      document.querySelectorAll('.step-item').forEach((item, index) => {
+        if (index + 1 <= currentStep) {
+          item.classList.add('active');
+        } else {
+          item.classList.remove('active');
+        }
+      });
+    }
+
+    function updateNavigation() {
+      const prevBtn = document.getElementById('prevBtn');
+      const nextBtn = document.getElementById('nextBtn');
+      const submitBtn = document.getElementById('submitBtn');
+
+      if (currentStep === 1) {
+        prevBtn.style.display = 'none';
+        nextBtn.style.display = 'inline-block';
+        submitBtn.style.display = 'none';
+      } else if (currentStep === totalSteps) {
+        prevBtn.style.display = 'inline-block';
+        nextBtn.style.display = 'none';
+        submitBtn.style.display = 'inline-block';
+        updateAppointmentSummary();
+      } else {
+        prevBtn.style.display = 'inline-block';
+        nextBtn.style.display = 'inline-block';
+        submitBtn.style.display = 'none';
+      }
+    }
+
+    function validateCurrentStep() {
+      if (currentStep === 1) {
+        const selectedService = document.querySelector('.service-option.selected');
+        if (!selectedService) {
+          alert('Please select a service to continue.');
+          return false;
+        }
+      } else if (currentStep === 2) {
+        const date = document.getElementById('appointmentDate').value;
+        const time = document.getElementById('appointmentTime').value;
+        if (!date || !time) {
+          alert('Please select both date and time to continue.');
+          return false;
+        }
+      } else if (currentStep === 3) {
+        const firstName = document.getElementById('firstName').value;
+        const lastName = document.getElementById('lastName').value;
+        const email = document.getElementById('email').value;
+        const phone = document.getElementById('phone').value;
+        
+        if (!firstName || !lastName || !email || !phone) {
+          alert('Please fill in all required fields to continue.');
+          return false;
+        }
+      }
+      return true;
+    }
+
+    function updateAppointmentSummary() {
+      const summary = document.getElementById('appointmentSummary');
+      const selectedService = document.querySelector('.service-option.selected');
+      const date = document.getElementById('appointmentDate').value;
+      const time = document.getElementById('appointmentTime').value;
+      const firstName = document.getElementById('firstName').value;
+      const lastName = document.getElementById('lastName').value;
+      const email = document.getElementById('email').value;
+      const phone = document.getElementById('phone').value;
+
+      summary.innerHTML = `
+        <div class="row">
+          <div class="col-md-6">
+            <h5>Service Details</h5>
+            <p><strong>Service:</strong> ${selectedService ? selectedService.querySelector('h5').textContent : 'Not selected'}</p>
+            <p><strong>Date:</strong> ${date || 'Not selected'}</p>
+            <p><strong>Time:</strong> ${time || 'Not selected'}</p>
+          </div>
+          <div class="col-md-6">
+            <h5>Patient Information</h5>
+            <p><strong>Name:</strong> ${firstName} ${lastName}</p>
+            <p><strong>Email:</strong> ${email}</p>
+            <p><strong>Phone:</strong> ${phone}</p>
+          </div>
+        </div>
+      `;
+    }
+
+    // Form submission
+    document.getElementById('appointmentForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      if (!document.getElementById('termsConsent').checked) {
+        alert('Please agree to the terms and conditions to continue.');
+        return;
+      }
+      
+      // Get form data
+      const formData = new FormData(this);
+      const data = Object.fromEntries(formData);
+      
+      // Add selected service
+      const selectedService = document.querySelector('.service-option.selected');
+      if (selectedService) {
+        data.service = selectedService.querySelector('h5').textContent;
+      }
+      
+      // Here you would typically send the data to your server
+      console.log('Appointment booked:', data);
+      
+      // Show success message
+      alert('Thank you! Your appointment has been booked successfully. You will receive a confirmation email shortly.');
+      
+      // Reset form and go back to step 1
+      this.reset();
+      currentStep = 1;
+      document.querySelectorAll('.booking-step').forEach((step, index) => {
+        step.style.display = index === 0 ? 'block' : 'none';
+      });
+      updateProgress();
+      updateNavigation();
+      document.querySelectorAll('.service-option').forEach(opt => opt.classList.remove('selected'));
+    });
+
+    // Set minimum date to today
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('appointmentDate').min = today;
+  </script>
+</body>
+</html>

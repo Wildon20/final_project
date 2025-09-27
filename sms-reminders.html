@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SMS Reminders - DR T DENTAL</title>
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-64X2PHHQJD"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-64X2PHHQJD');
+  </script>
+  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --text: #333333;
+      --card-bg: #f8f8f8;
+      --accent: #009688;
+    }
+
+    [data-theme="dark"] {
+      --bg: #121212;
+      --text: #e0e0e0;
+      --card-bg: #1f1f1f;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    .sms-hero {
+      background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
+                  url('https://images.unsplash.com/photo-1559757148-5c350d0d3c56?q=80&w=2070&auto=format&fit=crop') center/cover;
+      color: white;
+      padding: 6rem 0;
+      text-align: center;
+    }
+
+    .sms-card {
+      background: var(--bg);
+      border-radius: 15px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+      height: 100%;
+    }
+
+    .sms-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .sms-icon {
+      font-size: 3rem;
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+
+    .form-control {
+      background: var(--bg);
+      border: 2px solid var(--card-bg);
+      color: var(--text);
+      border-radius: 10px;
+      padding: 0.75rem 1rem;
+      transition: all 0.3s ease;
+    }
+
+    .form-control:focus {
+      background: var(--bg);
+      border-color: var(--accent);
+      color: var(--text);
+      box-shadow: 0 0 0 0.2rem rgba(0, 150, 136, 0.25);
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      border: none;
+      border-radius: 10px;
+      padding: 0.75rem 2rem;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .btn-primary:hover {
+      background: #00796b;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .reminder-type {
+      background: var(--card-bg);
+      border: 2px solid transparent;
+      border-radius: 10px;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .reminder-type:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    .reminder-type.selected {
+      border-color: var(--accent);
+      background: rgba(0, 150, 136, 0.1);
+    }
+
+    .reminder-icon {
+      font-size: 2rem;
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+
+    .notification-preview {
+      background: var(--accent);
+      color: white;
+      border-radius: 15px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .preview-message {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      padding: 1.5rem;
+      margin: 1rem 0;
+      font-family: monospace;
+    }
+
+    .schedule-card {
+      background: var(--card-bg);
+      border-radius: 15px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .time-option {
+      background: var(--bg);
+      border: 2px solid var(--card-bg);
+      border-radius: 10px;
+      padding: 1rem;
+      margin: 0.5rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: inline-block;
+    }
+
+    .time-option:hover {
+      border-color: var(--accent);
+      background: rgba(0, 150, 136, 0.05);
+    }
+
+    .time-option.selected {
+      border-color: var(--accent);
+      background: var(--accent);
+      color: white;
+    }
+
+    .book-now-btn {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: var(--accent);
+      color: white;
+      padding: 1rem 2rem;
+      border-radius: 50px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      z-index: 1000;
+      transition: transform 0.3s ease;
+      text-decoration: none;
+    }
+
+    .book-now-btn:hover {
+      transform: translateY(-5px);
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">DR T DENTAL</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="services.html">Services</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+          <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+          <li class="nav-item">
+            <button id="themeToggle" class="btn btn-outline-light ms-3">🌙</button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- SMS Hero -->
+  <section class="sms-hero">
+    <div class="container">
+      <h1 class="display-4 fw-bold mb-4">SMS Reminders</h1>
+      <p class="lead">Never miss an appointment with our smart notification system</p>
+    </div>
+  </section>
+
+  <!-- Reminder Setup -->
+  <section class="py-5">
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-lg-8">
+          <div class="sms-card">
+            <h3 class="mb-4"><i class="fas fa-mobile-alt text-primary me-2"></i>Set Up SMS Reminders</h3>
+            <form id="smsForm">
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label for="phoneNumber" class="form-label">Phone Number *</label>
+                  <input type="tel" class="form-control" id="phoneNumber" name="phoneNumber" 
+                         placeholder="+268 78514785" required>
+                </div>
+                <div class="col-md-6">
+                  <label for="patientName" class="form-label">Patient Name *</label>
+                  <input type="text" class="form-control" id="patientName" name="patientName" 
+                         placeholder="Your full name" required>
+                </div>
+                <div class="col-12">
+                  <label class="form-label">Reminder Types</label>
+                  <div class="row g-3">
+                    <div class="col-md-6">
+                      <div class="reminder-type text-center" data-type="appointment">
+                        <i class="fas fa-calendar-check reminder-icon"></i>
+                        <h6>Appointment Reminders</h6>
+                        <p class="small">Get notified before your dental visits</p>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="reminder-type text-center" data-type="followup">
+                        <i class="fas fa-phone reminder-icon"></i>
+                        <h6>Follow-up Calls</h6>
+                        <p class="small">Post-treatment check-ins</p>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="reminder-type text-center" data-type="maintenance">
+                        <i class="fas fa-tooth reminder-icon"></i>
+                        <h6>Maintenance Reminders</h6>
+                        <p class="small">Regular cleaning and checkup alerts</p>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="reminder-type text-center" data-type="emergency">
+                        <i class="fas fa-exclamation-triangle reminder-icon"></i>
+                        <h6>Emergency Alerts</h6>
+                        <p class="small">Important dental health updates</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <label class="form-label">Reminder Timing</label>
+                  <div class="schedule-card">
+                    <h6 class="mb-3">Appointment Reminders</h6>
+                    <div class="mb-3">
+                      <div class="time-option" data-time="24h">24 hours before</div>
+                      <div class="time-option selected" data-time="2h">2 hours before</div>
+                      <div class="time-option" data-time="1h">1 hour before</div>
+                      <div class="time-option" data-time="30min">30 minutes before</div>
+                    </div>
+                    <h6 class="mb-3">Follow-up Reminders</h6>
+                    <div class="mb-3">
+                      <div class="time-option selected" data-time="1day">1 day after</div>
+                      <div class="time-option" data-time="3days">3 days after</div>
+                      <div class="time-option" data-time="1week">1 week after</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="consent" name="consent" required>
+                    <label class="form-check-label" for="consent">
+                      I consent to receive SMS notifications from DR T DENTAL *
+                    </label>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <button type="submit" class="btn btn-primary btn-lg">
+                    <i class="fas fa-save me-2"></i>Save Reminder Settings
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="notification-preview">
+            <h4><i class="fas fa-eye me-2"></i>Preview Your Messages</h4>
+            <div class="preview-message">
+              <strong>Appointment Reminder:</strong><br>
+              Hi [Name], your dental appointment is tomorrow at [Time]. Please arrive 10 minutes early. Reply STOP to unsubscribe.
+            </div>
+            <div class="preview-message">
+              <strong>Follow-up Message:</strong><br>
+              Hi [Name], how are you feeling after your treatment? Call us if you have any concerns. Reply STOP to unsubscribe.
+            </div>
+            <div class="preview-message">
+              <strong>Maintenance Alert:</strong><br>
+              Hi [Name], it's time for your 6-month cleaning! Call us to schedule. Reply STOP to unsubscribe.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Benefits Section -->
+  <section class="py-5" style="background: var(--card-bg);">
+    <div class="container">
+      <h2 class="text-center mb-5">Why Choose SMS Reminders?</h2>
+      <div class="row g-4">
+        <div class="col-md-6 col-lg-3">
+          <div class="sms-card text-center">
+            <i class="fas fa-clock sms-icon"></i>
+            <h5>Never Miss Appointments</h5>
+            <p>Get timely reminders so you're always prepared for your dental visits</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="sms-card text-center">
+            <i class="fas fa-mobile-alt sms-icon"></i>
+            <h5>Convenient & Instant</h5>
+            <p>Receive notifications directly on your phone, no app downloads required</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="sms-card text-center">
+            <i class="fas fa-shield-alt sms-icon"></i>
+            <h5>Secure & Private</h5>
+            <p>Your information is protected and messages are sent securely</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="sms-card text-center">
+            <i class="fas fa-cog sms-icon"></i>
+            <h5>Fully Customizable</h5>
+            <p>Choose what reminders you want and when you want them</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Message History -->
+  <section class="py-5">
+    <div class="container">
+      <h2 class="text-center mb-5">Your Message History</h2>
+      <div class="sms-card">
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Type</th>
+                <th>Message</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="messageHistory">
+              <tr>
+                <td>March 20, 2025</td>
+                <td><span class="badge bg-primary">Appointment</span></td>
+                <td>Your dental cleaning is tomorrow at 9:00 AM</td>
+                <td><span class="badge bg-success">Delivered</span></td>
+              </tr>
+              <tr>
+                <td>March 18, 2025</td>
+                <td><span class="badge bg-info">Follow-up</span></td>
+                <td>How are you feeling after your root canal?</td>
+                <td><span class="badge bg-success">Delivered</span></td>
+              </tr>
+              <tr>
+                <td>March 15, 2025</td>
+                <td><span class="badge bg-warning">Maintenance</span></td>
+                <td>Time for your 6-month checkup!</td>
+                <td><span class="badge bg-success">Delivered</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Settings & Preferences -->
+  <section class="py-5" style="background: var(--card-bg);">
+    <div class="container">
+      <h2 class="text-center mb-5">Manage Your Preferences</h2>
+      <div class="row g-4">
+        <div class="col-md-6">
+          <div class="sms-card">
+            <h4><i class="fas fa-bell me-2"></i>Notification Settings</h4>
+            <div class="form-check mb-3">
+              <input class="form-check-input" type="checkbox" id="appointmentReminders" checked>
+              <label class="form-check-label" for="appointmentReminders">
+                Appointment reminders
+              </label>
+            </div>
+            <div class="form-check mb-3">
+              <input class="form-check-input" type="checkbox" id="followupCalls" checked>
+              <label class="form-check-label" for="followupCalls">
+                Follow-up calls
+              </label>
+            </div>
+            <div class="form-check mb-3">
+              <input class="form-check-input" type="checkbox" id="maintenanceAlerts" checked>
+              <label class="form-check-label" for="maintenanceAlerts">
+                Maintenance alerts
+              </label>
+            </div>
+            <div class="form-check mb-3">
+              <input class="form-check-input" type="checkbox" id="emergencyUpdates">
+              <label class="form-check-label" for="emergencyUpdates">
+                Emergency updates
+              </label>
+            </div>
+            <button class="btn btn-primary" onclick="savePreferences()">
+              <i class="fas fa-save me-2"></i>Save Preferences
+            </button>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="sms-card">
+            <h4><i class="fas fa-clock me-2"></i>Timing Preferences</h4>
+            <div class="mb-3">
+              <label class="form-label">Preferred reminder time</label>
+              <select class="form-control">
+                <option>Morning (8 AM - 12 PM)</option>
+                <option selected>Afternoon (12 PM - 5 PM)</option>
+                <option>Evening (5 PM - 9 PM)</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Quiet hours (no messages)</label>
+              <div class="row g-2">
+                <div class="col-6">
+                  <input type="time" class="form-control" value="22:00">
+                </div>
+                <div class="col-6">
+                  <input type="time" class="form-control" value="08:00">
+                </div>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Language preference</label>
+              <select class="form-control">
+                <option selected>English</option>
+                <option>Spanish</option>
+                <option>French</option>
+              </select>
+            </div>
+            <button class="btn btn-primary" onclick="saveTiming()">
+              <i class="fas fa-save me-2"></i>Save Timing
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Book Now Button -->
+  <a href="appointment.html" class="book-now-btn">
+    <i class="fas fa-calendar-check me-2"></i>Book Now
+  </a>
+
+  <!-- Footer -->
+  <footer class="py-4" style="background: var(--card-bg);">
+    <div class="container text-center">
+      <p class="mb-0">&copy; 2025 DR T DENTAL. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Theme toggle functionality
+    const toggleBtn = document.getElementById('themeToggle');
+    const htmlEl = document.documentElement;
+
+    toggleBtn.addEventListener('click', () => {
+      const currentTheme = htmlEl.getAttribute('data-theme');
+      const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+      htmlEl.setAttribute('data-theme', newTheme);
+      toggleBtn.textContent = newTheme === 'light' ? '🌙' : '☀️';
+    });
+
+    // Reminder type selection
+    document.querySelectorAll('.reminder-type').forEach(type => {
+      type.addEventListener('click', function() {
+        this.classList.toggle('selected');
+        
+        const reminderType = this.getAttribute('data-type');
+        console.log('Reminder type toggled:', reminderType);
+      });
+    });
+
+    // Time option selection
+    document.querySelectorAll('.time-option').forEach(option => {
+      option.addEventListener('click', function() {
+        // Remove selection from siblings in the same group
+        const parent = this.parentElement;
+        parent.querySelectorAll('.time-option').forEach(opt => opt.classList.remove('selected'));
+        // Add selection to clicked option
+        this.classList.add('selected');
+        
+        const selectedTime = this.getAttribute('data-time');
+        console.log('Selected time:', selectedTime);
+      });
+    });
+
+    // SMS form submission
+    document.getElementById('smsForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const formData = new FormData(this);
+      const data = Object.fromEntries(formData);
+      
+      // Get selected reminder types
+      const selectedTypes = Array.from(document.querySelectorAll('.reminder-type.selected'))
+        .map(type => type.getAttribute('data-type'));
+      
+      // Get selected timing
+      const selectedTiming = Array.from(document.querySelectorAll('.time-option.selected'))
+        .map(time => time.getAttribute('data-time'));
+      
+      const smsData = {
+        ...data,
+        reminderTypes: selectedTypes,
+        timing: selectedTiming
+      };
+      
+      console.log('SMS settings saved:', smsData);
+      
+      // Show success message
+      alert('SMS reminder settings saved successfully! You will now receive notifications according to your preferences.');
+      
+      // Track event
+      gtag('event', 'sms_reminders_setup', {
+        event_category: 'notifications',
+        event_label: selectedTypes.join(', ')
+      });
+    });
+
+    // Save preferences
+    function savePreferences() {
+      const preferences = {
+        appointmentReminders: document.getElementById('appointmentReminders').checked,
+        followupCalls: document.getElementById('followupCalls').checked,
+        maintenanceAlerts: document.getElementById('maintenanceAlerts').checked,
+        emergencyUpdates: document.getElementById('emergencyUpdates').checked
+      };
+      
+      console.log('Preferences saved:', preferences);
+      alert('Notification preferences saved!');
+      
+      gtag('event', 'notification_preferences_saved', {
+        event_category: 'notifications',
+        event_label: 'Preferences Updated'
+      });
+    }
+
+    // Save timing preferences
+    function saveTiming() {
+      console.log('Timing preferences saved!');
+      alert('Timing preferences saved!');
+      
+      gtag('event', 'timing_preferences_saved', {
+        event_category: 'notifications',
+        event_label: 'Timing Updated'
+      });
+    }
+
+    // Phone number formatting
+    document.getElementById('phoneNumber').addEventListener('input', function(e) {
+      let value = e.target.value.replace(/\D/g, '');
+      if (value.length > 0) {
+        if (value.length <= 3) {
+          value = '+' + value;
+        } else if (value.length <= 6) {
+          value = '+' + value.slice(0, 3) + ' ' + value.slice(3);
+        } else if (value.length <= 10) {
+          value = '+' + value.slice(0, 3) + ' ' + value.slice(3, 6) + ' ' + value.slice(6);
+        } else {
+          value = '+' + value.slice(0, 3) + ' ' + value.slice(3, 6) + ' ' + value.slice(6, 10) + ' ' + value.slice(10);
+        }
+      }
+      e.target.value = value;
+    });
+  </script>
+</body>
+</html>

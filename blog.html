@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dental Health Blog - DR T DENTAL</title>
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-64X2PHHQJD"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-64X2PHHQJD');
+  </script>
+  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --text: #333333;
+      --card-bg: #f8f8f8;
+      --accent: #009688;
+    }
+
+    [data-theme="dark"] {
+      --bg: #121212;
+      --text: #e0e0e0;
+      --card-bg: #1f1f1f;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    .blog-hero {
+      background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
+                  url('https://images.unsplash.com/photo-1559757148-5c350d0d3c56?q=80&w=2070&auto=format&fit=crop') center/cover;
+      color: white;
+      padding: 6rem 0;
+      text-align: center;
+    }
+
+    .blog-card {
+      background: var(--bg);
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      height: 100%;
+    }
+
+    .blog-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    .blog-image {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .blog-content {
+      padding: 1.5rem;
+    }
+
+    .blog-meta {
+      color: var(--text);
+      opacity: 0.7;
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+    }
+
+    .blog-tag {
+      background: var(--accent);
+      color: white;
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      margin-right: 0.5rem;
+      margin-bottom: 0.5rem;
+      display: inline-block;
+    }
+
+    .featured-post {
+      background: var(--accent);
+      color: white;
+      border-radius: 15px;
+      padding: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .search-box {
+      background: var(--card-bg);
+      border-radius: 15px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .search-input {
+      background: var(--bg);
+      border: 2px solid var(--card-bg);
+      color: var(--text);
+      border-radius: 10px;
+      padding: 0.75rem 1rem;
+      transition: all 0.3s ease;
+    }
+
+    .search-input:focus {
+      background: var(--bg);
+      border-color: var(--accent);
+      color: var(--text);
+      box-shadow: 0 0 0 0.2rem rgba(0, 150, 136, 0.25);
+    }
+
+    .category-filter {
+      background: var(--card-bg);
+      border-radius: 15px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .category-btn {
+      background: var(--bg);
+      border: 2px solid var(--card-bg);
+      color: var(--text);
+      border-radius: 25px;
+      padding: 0.5rem 1.5rem;
+      margin: 0.25rem;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .category-btn:hover, .category-btn.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: white;
+      text-decoration: none;
+    }
+
+    .newsletter-signup {
+      background: linear-gradient(135deg, var(--accent) 0%, #00796b 100%);
+      color: white;
+      border-radius: 15px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .book-now-btn {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: var(--accent);
+      color: white;
+      padding: 1rem 2rem;
+      border-radius: 50px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      z-index: 1000;
+      transition: transform 0.3s ease;
+      text-decoration: none;
+    }
+
+    .book-now-btn:hover {
+      transform: translateY(-5px);
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">DR T DENTAL</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="services.html">Services</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+          <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+          <li class="nav-item"><a class="nav-link active" href="blog.html">Blog</a></li>
+          <li class="nav-item">
+            <button id="themeToggle" class="btn btn-outline-light ms-3">🌙</button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Blog Hero -->
+  <section class="blog-hero">
+    <div class="container">
+      <h1 class="display-4 fw-bold mb-4">Dental Health Blog</h1>
+      <p class="lead">Expert tips, insights, and the latest in dental care</p>
+    </div>
+  </section>
+
+  <!-- Search and Categories -->
+  <section class="py-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8">
+          <div class="search-box">
+            <h4 class="mb-3">Search Articles</h4>
+            <div class="input-group">
+              <input type="text" class="form-control search-input" id="searchInput" placeholder="Search for dental tips, procedures, or health advice...">
+              <button class="btn btn-primary" type="button" onclick="searchArticles()">
+                <i class="fas fa-search"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="newsletter-signup">
+            <h5 class="mb-3">Stay Updated</h5>
+            <p class="mb-3">Get the latest dental health tips delivered to your inbox</p>
+            <div class="input-group mb-3">
+              <input type="email" class="form-control" placeholder="Your email address">
+              <button class="btn btn-light" type="button">Subscribe</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Category Filters -->
+      <div class="category-filter">
+        <h5 class="mb-3">Filter by Category</h5>
+        <div class="category-buttons">
+          <a href="#" class="category-btn active" data-category="all">All</a>
+          <a href="#" class="category-btn" data-category="prevention">Prevention</a>
+          <a href="#" class="category-btn" data-category="treatment">Treatment</a>
+          <a href="#" class="category-btn" data-category="cosmetic">Cosmetic</a>
+          <a href="#" class="category-btn" data-category="children">Children</a>
+          <a href="#" class="category-btn" data-category="technology">Technology</a>
+          <a href="#" class="category-btn" data-category="nutrition">Nutrition</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Post -->
+  <section class="py-3">
+    <div class="container">
+      <div class="featured-post">
+        <div class="row align-items-center">
+          <div class="col-lg-8">
+            <span class="blog-tag">Featured</span>
+            <h2 class="mb-3">The Complete Guide to Maintaining Perfect Oral Health</h2>
+            <p class="lead mb-3">Discover the essential daily habits and professional care tips that will keep your smile healthy and beautiful for life.</p>
+            <div class="blog-meta">
+              <i class="fas fa-calendar me-2"></i>March 20, 2025
+              <i class="fas fa-user ms-3 me-2"></i>Dr. T
+              <i class="fas fa-clock ms-3 me-2"></i>5 min read
+            </div>
+            <a href="#" class="btn btn-light btn-lg mt-3">Read Full Article</a>
+          </div>
+          <div class="col-lg-4">
+            <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?q=80&w=2070&auto=format&fit=crop" 
+                 alt="Oral Health" class="img-fluid rounded">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Blog Posts -->
+  <section class="py-5">
+    <div class="container">
+      <div class="row g-4" id="blogPosts">
+        <!-- Prevention Articles -->
+        <div class="col-lg-4 col-md-6" data-category="prevention">
+          <div class="blog-card">
+            <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?q=80&w=2070&auto=format&fit=crop" 
+                 alt="Brushing Techniques" class="blog-image">
+            <div class="blog-content">
+              <span class="blog-tag">Prevention</span>
+              <h5>5 Essential Brushing Techniques for Optimal Oral Health</h5>
+              <p>Master the proper brushing techniques that will transform your daily dental routine and prevent common oral health issues.</p>
+              <div class="blog-meta">
+                <i class="fas fa-calendar me-2"></i>March 18, 2025
+                <i class="fas fa-clock ms-3 me-2"></i>3 min read
+              </div>
+              <a href="#" class="btn btn-outline-primary btn-sm">Read More</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6" data-category="prevention">
+          <div class="blog-card">
+            <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?q=80&w=2070&auto=format&fit=crop" 
+                 alt="Flossing Guide" class="blog-image">
+            <div class="blog-content">
+              <span class="blog-tag">Prevention</span>
+              <h5>Why Flossing is More Important Than You Think</h5>
+              <p>Learn why flossing is crucial for preventing gum disease and maintaining healthy teeth, plus the best flossing techniques.</p>
+              <div class="blog-meta">
+                <i class="fas fa-calendar me-2"></i>March 15, 2025
+                <i class="fas fa-clock ms-3 me-2"></i>4 min read
+              </div>
+              <a href="#" class="btn btn-outline-primary btn-sm">Read More</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Treatment Articles -->
+        <div class="col-lg-4 col-md-6" data-category="treatment">
+          <div class="blog-card">
+            <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?q=80&w=2070&auto=format&fit=crop" 
+                 alt="Root Canal" class="blog-image">
+            <div class="blog-content">
+              <span class="blog-tag">Treatment</span>
+              <h5>Understanding Root Canal Therapy: What to Expect</h5>
+              <p>Demystify the root canal procedure and learn why it's often the best way to save a severely damaged tooth.</p>
+              <div class="blog-meta">
+                <i class="fas fa-calendar me-2"></i>March 12, 2025
+                <i class="fas fa-clock ms-3 me-2"></i>6 min read
+              </div>
+              <a href="#" class="btn btn-outline-primary btn-sm">Read More</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Cosmetic Articles -->
+        <div class="col-lg-4 col-md-6" data-category="cosmetic">
+          <div class="blog-card">
+            <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?q=80&w=2070&auto=format&fit=crop" 
+                 alt="Teeth Whitening" class="blog-image">
+            <div class="blog-content">
+              <span class="blog-tag">Cosmetic</span>
+              <h5>Professional vs. At-Home Teeth Whitening: Which is Right for You?</h5>
+              <p>Compare the benefits and results of professional in-office whitening versus at-home treatments to make the best choice.</p>
+              <div class="blog-meta">
+                <i class="fas fa-calendar me-2"></i>March 10, 2025
+                <i class="fas fa-clock ms-3 me-2"></i>4 min read
+              </div>
+              <a href="#" class="btn btn-outline-primary btn-sm">Read More</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Children's Articles -->
+        <div class="col-lg-4 col-md-6" data-category="children">
+          <div class="blog-card">
+            <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?q=80&w=2070&auto=format&fit=crop" 
+                 alt="Kids Dental Care" class="blog-image">
+            <div class="blog-content">
+              <span class="blog-tag">Children</span>
+              <h5>Making Dental Visits Fun for Kids: A Parent's Guide</h5>
+              <p>Learn how to prepare your child for dental visits and make oral hygiene an enjoyable part of their daily routine.</p>
+              <div class="blog-meta">
+                <i class="fas fa-calendar me-2"></i>March 8, 2025
+                <i class="fas fa-clock ms-3 me-2"></i>5 min read
+              </div>
+              <a href="#" class="btn btn-outline-primary btn-sm">Read More</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Technology Articles -->
+        <div class="col-lg-4 col-md-6" data-category="technology">
+          <div class="blog-card">
+            <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?q=80&w=2070&auto=format&fit=crop" 
+                 alt="Dental Technology" class="blog-image">
+            <div class="blog-content">
+              <span class="blog-tag">Technology</span>
+              <h5>How 3D Imaging is Revolutionizing Dental Care</h5>
+              <p>Discover how advanced 3D imaging technology is improving diagnosis accuracy and treatment planning in modern dentistry.</p>
+              <div class="blog-meta">
+                <i class="fas fa-calendar me-2"></i>March 5, 2025
+                <i class="fas fa-clock ms-3 me-2"></i>4 min read
+              </div>
+              <a href="#" class="btn btn-outline-primary btn-sm">Read More</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Nutrition Articles -->
+        <div class="col-lg-4 col-md-6" data-category="nutrition">
+          <div class="blog-card">
+            <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?q=80&w=2070&auto=format&fit=crop" 
+                 alt="Dental Nutrition" class="blog-image">
+            <div class="blog-content">
+              <span class="blog-tag">Nutrition</span>
+              <h5>Foods That Strengthen Your Teeth: A Complete Guide</h5>
+              <p>Learn which foods promote strong teeth and healthy gums, and which ones to avoid for optimal oral health.</p>
+              <div class="blog-meta">
+                <i class="fas fa-calendar me-2"></i>March 3, 2025
+                <i class="fas fa-clock ms-3 me-2"></i>4 min read
+              </div>
+              <a href="#" class="btn btn-outline-primary btn-sm">Read More</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- More Articles -->
+        <div class="col-lg-4 col-md-6" data-category="prevention">
+          <div class="blog-card">
+            <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?q=80&w=2070&auto=format&fit=crop" 
+                 alt="Gum Health" class="blog-image">
+            <div class="blog-content">
+              <span class="blog-tag">Prevention</span>
+              <h5>Signs of Gum Disease: Early Warning Signals</h5>
+              <p>Recognize the early signs of gum disease and learn how to prevent it before it becomes a serious problem.</p>
+              <div class="blog-meta">
+                <i class="fas fa-calendar me-2"></i>March 1, 2025
+                <i class="fas fa-clock ms-3 me-2"></i>3 min read
+              </div>
+              <a href="#" class="btn btn-outline-primary btn-sm">Read More</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6" data-category="cosmetic">
+          <div class="blog-card">
+            <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?q=80&w=2070&auto=format&fit=crop" 
+                 alt="Veneers" class="blog-image">
+            <div class="blog-content">
+              <span class="blog-tag">Cosmetic</span>
+              <h5>Porcelain Veneers: Transform Your Smile in Just Two Visits</h5>
+              <p>Learn how porcelain veneers can completely transform your smile and boost your confidence with minimal discomfort.</p>
+              <div class="blog-meta">
+                <i class="fas fa-calendar me-2"></i>February 28, 2025
+                <i class="fas fa-clock ms-3 me-2"></i>5 min read
+              </div>
+              <a href="#" class="btn btn-outline-primary btn-sm">Read More</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6" data-category="treatment">
+          <div class="blog-card">
+            <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?q=80&w=2070&auto=format&fit=crop" 
+                 alt="Dental Implants" class="blog-image">
+            <div class="blog-content">
+              <span class="blog-tag">Treatment</span>
+              <h5>Dental Implants: The Gold Standard for Missing Teeth</h5>
+              <p>Discover why dental implants are considered the best solution for replacing missing teeth and restoring your smile.</p>
+              <div class="blog-meta">
+                <i class="fas fa-calendar me-2"></i>February 25, 2025
+                <i class="fas fa-clock ms-3 me-2"></i>6 min read
+              </div>
+              <a href="#" class="btn btn-outline-primary btn-sm">Read More</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Load More Button -->
+      <div class="text-center mt-5">
+        <button class="btn btn-primary btn-lg" onclick="loadMorePosts()">
+          <i class="fas fa-plus me-2"></i>Load More Articles
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Book Now Button -->
+  <a href="appointment.html" class="book-now-btn">
+    <i class="fas fa-calendar-check me-2"></i>Book Now
+  </a>
+
+  <!-- Footer -->
+  <footer class="py-4" style="background: var(--card-bg);">
+    <div class="container text-center">
+      <p class="mb-0">&copy; 2025 DR T DENTAL. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Theme toggle functionality
+    const toggleBtn = document.getElementById('themeToggle');
+    const htmlEl = document.documentElement;
+
+    toggleBtn.addEventListener('click', () => {
+      const currentTheme = htmlEl.getAttribute('data-theme');
+      const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+      htmlEl.setAttribute('data-theme', newTheme);
+      toggleBtn.textContent = newTheme === 'light' ? '🌙' : '☀️';
+    });
+
+    // Category filtering
+    document.querySelectorAll('.category-btn').forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        // Remove active class from all buttons
+        document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+        // Add active class to clicked button
+        this.classList.add('active');
+        
+        const category = this.getAttribute('data-category');
+        filterPosts(category);
+      });
+    });
+
+    function filterPosts(category) {
+      const posts = document.querySelectorAll('[data-category]');
+      
+      posts.forEach(post => {
+        if (category === 'all' || post.getAttribute('data-category') === category) {
+          post.style.display = 'block';
+        } else {
+          post.style.display = 'none';
+        }
+      });
+    }
+
+    // Search functionality
+    function searchArticles() {
+      const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+      const posts = document.querySelectorAll('[data-category]');
+      
+      posts.forEach(post => {
+        const title = post.querySelector('h5').textContent.toLowerCase();
+        const content = post.querySelector('p').textContent.toLowerCase();
+        
+        if (title.includes(searchTerm) || content.includes(searchTerm)) {
+          post.style.display = 'block';
+        } else {
+          post.style.display = 'none';
+        }
+      });
+    }
+
+    // Load more posts functionality
+    function loadMorePosts() {
+      // Simulate loading more posts
+      alert('More articles will be loaded here');
+      
+      gtag('event', 'load_more_posts', {
+        event_category: 'blog',
+        event_label: 'Load More Articles'
+      });
+    }
+
+    // Track blog interactions
+    document.querySelectorAll('.blog-card').forEach(card => {
+      card.addEventListener('click', function() {
+        const title = this.querySelector('h5').textContent;
+        const category = this.getAttribute('data-category');
+        
+        gtag('event', 'blog_post_click', {
+          event_category: 'blog',
+          event_label: `${category}: ${title}`
+        });
+      });
+    });
+  </script>
+</body>
+</html>

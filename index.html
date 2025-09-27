@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DR T DENTAL0927</title>
+  <!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-64X2PHHQJD');
+</script>
+
+  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    body {
+      background-color: #f7f7f7;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    .navbar {
+      background-color: #000000 !important;
+    }
+
+    .navbar-brand, .nav-link {
+      color: #ffffff !important;
+    }
+
+    .nav-link:hover {
+      color: #d68f12 !important;
+    }
+
+    h1 {
+      color: #007bff;
+    }
+
+    /* Grid layout */
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      max-width: 800px;
+      margin: 40px auto;
+    }
+
+    .gallery img {
+      width: 100%;
+      border-radius: 10px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+    }
+
+    .gallery-item {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .gallery-item:hover img {
+      transform: scale(1.05);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .caption {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 10px;
+      background: rgba(0, 0, 0, 0.6);
+      color: white;
+      text-align: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .gallery-item:hover .caption {
+      opacity: 1;
+    }
+
+    /* Modal image style */
+    .modal-img {
+      width: 100%;
+    }
+
+    /* Dark Mode */
+    .dark-mode {
+      background-color: #121212;
+      color: #e0e0e0;
+    }
+
+    .dark-mode .caption {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .toggle-btn {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      z-index: 9999;
+    }
+
+    footer {
+      background-color: #000000;
+      color: #d2d7d6;
+      text-align: center;
+      padding: 10px;
+      margin-top: 40px;
+    }
+  </style>
+  
+</head>
+<body>
+
+
+  <!-- Navigation Bar -->
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">YOUR SMILE IS OUR PRIDE</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>      
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="services.html">Services</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+          <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+          
+          
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <a href="appointment.html" class="btn btn-primary" target="_blank"
+   onclick="gtag('event', 'book_appointment_click', {
+     event_category: 'engagement',
+     event_label: 'Book Appointment Button'
+   });">
+  Book Appointment
+</a>
+
+  <!-- Page Title -->
+<div class="container text-center mt-5">
+    <h1 class="display-4" style="color: rgb(180, 178, 178); font-weight: bold;">DR T DENTAL</h1>
+  </div>
+  
+
+  <!-- Image Gallery -->
+  <div class="gallery">
+    <div class="gallery-item" onclick="openModal('img1')">
+      <img src="https://www.alluredentistry.com/wp-content/uploads/dental-checkup-2005.jpg" alt="Dental 1" />
+      <div class="caption">Routine Checkup</div>
+    </div>
+    <div class="gallery-item" onclick="openModal('img2')">
+      <img src="https://www.congressionaldental.com/wp-content/uploads/2020/02/the-benefits-of-professional-teeth-whitening.jpeg" alt="Dental 2" />
+      <div class="caption">Teeth Whitening</div>
+    </div>
+    <div class="gallery-item" onclick="openModal('img3')">
+      <img src="https://th.bing.com/th/id/OIP.PnFs4CyV12uq2-UT9crMagHaGk?rs=1&pid=ImgDetMain" alt="Dental 3" />
+      <div class="caption">Orthodontics</div>
+    </div>
+    <div class="gallery-item" onclick="openModal('img4')">
+      <img src="https://www.dentistryonbroadway.com/wp-content/uploads/2015/05/oral.jpg" alt="Dental 4" />
+      <div class="caption">Dental Surgery</div>
+    </div>
+  </div>
+
+  <!-- Modal for Images -->
+  <div class="modal fade" id="imageModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content bg-dark text-white">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalTitle">Image Preview</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body text-center">
+          <img id="modalImage" class="modal-img" src="" alt="Large view">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+    <!-- Bootstrap JS + Custom Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      // Show large image in modal
+      function openModal(imageId) {
+        const imgMap = {
+          img1: "https://www.alluredentistry.com/wp-content/uploads/dental-checkup-2005.jpg",
+          img2: "https://www.congressionaldental.com/wp-content/uploads/2020/02/the-benefits-of-professional-teeth-whitening.jpeg",
+          img3: "https://th.bing.com/th/id/OIP.PnFs4CyV12uq2-UT9crMagHaGk?rs=1&pid=ImgDetMain",
+          img4: "https://www.dentistryonbroadway.com/wp-content/uploads/2015/05/oral.jpg"
+        };
+        document.getElementById("modalImage").src = imgMap[imageId];
+        new bootstrap.Modal(document.getElementById('imageModal')).show();
+      }
+    </script>
+  
+    <!-- Tidio Chat Script -->
+<script src="//code.tidio.co/juinxw5y30ijc1vu98qwbz5ofkydltoz.js" async></script>
+
+<!-- Custom Chat Button -->
+<div class="chat-pulse" onclick="openTidioChat()"></div>
+
+<script>
+  function openTidioChat() {
+    if (window.tidioChatApi) {
+      window.tidioChatApi.open();
+    } else {
+      console.log("Tidio not loaded yet");
+    }
+  }
+  
+  document.addEventListener("tidioChat-open", function () {
+    gtag('event', 'ai_chat_open', {
+      event_category: 'chat',
+      event_label: 'Tidio Chat Opened'
+    });
+  });
+</script>
+
+</script>
+<!-- Start of HubSpot Embed Code -->
+<script type="text/javascript" id="hs-script-loader" async defer src="//js-na2.hs-scripts.com/242638795.js"></script>
+<!-- End of HubSpot Embed Code -->
+<!-- Footer -->
+<footer>
+</footer>
+   <!-- 🔄 Before/After Continuous Scroll Section -->
+<section style="background: url('https://images.unsplash.com/photo-1588776814546-ec7aa1e90b3e') center/cover no-repeat; padding: 60px 0; position: relative;">
+  <div class="container text-center text-white">
+    <h2 class="mb-5 display-5 fw-bold real-results-heading">Real Patient Results</h2>
+  </div>
+
+  <div class="scroll-wrapper">
+    <div class="scroll-track">
+      <!-- Repeat image sets for continuous effect -->
+      <div class="scroll-item">
+        <img src="https://www.absolutedental.com/wp-content/uploads/2023/08/Before-and-after-shots-1024x576.jpg" alt="Teeth Whitening">
+        <p>Teeth Whitening</p>
+      </div>
+      <div class="scroll-item">
+        <img src="https://www.shutterstock.com/image-photo/close-woman-smiling-teeth-before-260nw-1799915665.jpg" alt="Orthodontics">
+        <p>Orthodontics</p>
+      </div>
+      <div class="scroll-item">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5fzw19uGzvH4II8fEjeKTBw3zUhLGaiYfMg&s" alt="Dental Surgery">
+        <p>Dental Surgery</p>
+      </div>
+      <div class="scroll-item">
+        <img src="https://childhoodsmiles.com/wp-content/uploads/2024/02/Child-Dental-Caries-Treatment-before-after-at-Bangalore.jpg" alt="Routine Checkup">
+        <p>Routine Checkup</p>
+      </div>
+
+      <!-- Duplicate to ensure continuous scrolling -->
+      <div class="scroll-item">
+        <img src="https://www.absolutedental.com/wp-content/uploads/2023/08/Before-and-after-shots-1024x576.jpg" alt="Teeth Whitening">
+        <p>Teeth Whitening</p>
+      </div>
+      <div class="scroll-item">
+        <img src="https://www.shutterstock.com/image-photo/close-woman-smiling-teeth-before-260nw-1799915665.jpg" alt="Orthodontics">
+        <p>Orthodontics</p>
+      </div>
+      <div class="scroll-item">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5fzw19uGzvH4II8fEjeKTBw3zUhLGaiYfMg&s" alt="Dental Surgery">
+        <p>Dental Surgery</p>
+      </div>
+      <div class="scroll-item">
+        <img src="https://childhoodsmiles.com/wp-content/uploads/2024/02/Child-Dental-Caries-Treatment-before-after-at-Bangalore.jpg" alt="Routine Checkup">
+        <p>Routine Checkup</p>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    .scroll-wrapper {
+      overflow: hidden;
+      position: relative;
+      width: 100%;
+    }
+
+    .scroll-track {
+      display: flex;
+      width: max-content;
+      animation: scroll-left 40s linear infinite;
+    }
+
+    .scroll-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 0 40px;
+      color: rgb(0, 0, 0);
+      text-align: center;
+    }
+
+    .scroll-item img {
+      width: 220px;
+      height: auto;
+      border-radius: 10px;
+      margin: 10px 0;
+      box-shadow: 0 8px 20px rgba(175, 148, 148, 0.3);
+    }
+
+    .scroll-item p {
+      margin-top: 5px;
+      font-weight: 600;
+    }
+
+    @keyframes scroll-left {
+      from {
+        transform: translateX(0);
+      }
+      to {
+        transform: translateX(-100%);
+      }
+    }
+  </style>
+</section>
+
+<!-- Book Appointment Section -->
+<div class="container text-center my-5">
+  <a href="appointment.html" class="btn btn-primary btn-lg px-5 py-3" style="background-color: #007bff; border: none; font-size: 1.25rem; font-weight: bold; box-shadow: 0 4px 15px rgba(0,123,255,0.3); transition: all 0.3s ease;" 
+    onmouseover="this.style.transform='scale(1.05)'" 
+    onmouseout="this.style.transform='scale(1)'"
+    onclick="gtag('event', 'book_appointment_click', {
+      event_category: 'engagement',
+      event_label: 'Bottom Book Appointment Button'
+    });">
+    Book Your Appointment Now
+  </a>
+</div>
+
+<!-- Footer -->
+<footer>
+  <p>&copy; 2025 DR T DENTAL. All rights reserved.</p>
+</footer>
+  </body>
+  </html>
+  
+
+
+    
+    
