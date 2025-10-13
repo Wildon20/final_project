@@ -608,7 +608,19 @@
 
   <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="api-integration.js"></script>
   <script>
+    // Require authentication before using the booking flow
+    (function enforceAuthGate() {
+      try {
+        if (!window.DentalFrontend || !window.DentalFrontend.requireAuth) return;
+        // Save intent so we can return after login
+        sessionStorage.setItem('postLoginRedirect', 'appointment.html');
+        if (!DentalFrontend.requireAuth('appointment.html')) {
+          return; // redirected
+        }
+      } catch (_) {}
+    })();
     // Theme toggle functionality
     const toggleBtn = document.getElementById('themeToggle');
     const htmlEl = document.documentElement;
@@ -749,40 +761,70 @@
       `;
     }
 
-    // Form submission
-    document.getElementById('appointmentForm').addEventListener('submit', function(e) {
+    // Form submission -> call backend API
+    document.getElementById('appointmentForm').addEventListener('submit', async function(e) {
       e.preventDefault();
-      
+
+      // Double-check authentication at submit time
+      if (!window.DentalFrontend || !DentalFrontend.isAuthenticated()) {
+        alert('Please login first in Patient Portal, then try booking again.');
+        if (window.DentalFrontend) {
+          DentalFrontend.requireAuth('appointment.html');
+        } else {
+          window.location.href = 'patient-portal.html?redirect=appointment.html';
+        }
+        return;
+      }
+
       if (!document.getElementById('termsConsent').checked) {
         alert('Please agree to the terms and conditions to continue.');
         return;
       }
-      
-      // Get form data
-      const formData = new FormData(this);
-      const data = Object.fromEntries(formData);
-      
-      // Add selected service
+
       const selectedService = document.querySelector('.service-option.selected');
-      if (selectedService) {
-        data.service = selectedService.querySelector('h5').textContent;
+      if (!selectedService) {
+        alert('Please select a service.');
+        return;
       }
-      
-      // Here you would typically send the data to your server
-      console.log('Appointment booked:', data);
-      
-      // Show success message
-      alert('Thank you! Your appointment has been booked successfully. You will receive a confirmation email shortly.');
-      
-      // Reset form and go back to step 1
-      this.reset();
-      currentStep = 1;
-      document.querySelectorAll('.booking-step').forEach((step, index) => {
-        step.style.display = index === 0 ? 'block' : 'none';
-      });
-      updateProgress();
-      updateNavigation();
-      document.querySelectorAll('.service-option').forEach(opt => opt.classList.remove('selected'));
+
+      const payload = {
+        service: selectedService.querySelector('h5').textContent.toUpperCase().replace(/\s+/g, ''),
+        service_name: selectedService.querySelector('h5').textContent,
+        appointment_date: document.getElementById('appointmentDate').value,
+        appointment_time: document.getElementById('appointmentTime').value,
+        urgency: document.getElementById('urgency').value || 'routine',
+        notes: document.getElementById('notes').value || '',
+        payment_method: (document.querySelector('input[name="paymentMethod"]:checked')?.value) || 'selfPay'
+      };
+
+      try {
+        const res = await DentalAPI.createAppointment(payload);
+        if (res?.success) {
+          alert('Thank you! Your appointment has been booked successfully.');
+
+          // Reset form and go back to step 1
+          this.reset();
+          currentStep = 1;
+          document.querySelectorAll('.booking-step').forEach((step, index) => {
+            step.style.display = index === 0 ? 'block' : 'none';
+          });
+          updateProgress();
+          updateNavigation();
+          document.querySelectorAll('.service-option').forEach(opt => opt.classList.remove('selected'));
+        } else {
+          alert(res?.message || 'Failed to book appointment. Please try again.');
+        }
+      } catch (err) {
+        if (err && err.message && err.message.includes('401')) {
+          alert('Your session expired. Please login again in Patient Portal, then try booking.');
+          if (window.DentalFrontend) {
+            DentalFrontend.logout();
+            DentalFrontend.requireAuth('appointment.html');
+          }
+        } else {
+          alert('Failed to book appointment. Please try again.');
+        }
+      }
     });
 
     // Set minimum date to today

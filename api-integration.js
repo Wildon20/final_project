@@ -14,6 +14,16 @@ class DentalAPI {
             }
         };
 
+        // Attach JWT token if available
+        try {
+            const token = localStorage.getItem('authToken');
+            if (token) {
+                options.headers['Authorization'] = `Bearer ${token}`;
+            }
+        } catch (e) {
+            // ignore storage errors
+        }
+
         if (data && method !== 'GET') {
             options.body = JSON.stringify(data);
         }
@@ -69,6 +79,42 @@ class DentalAPI {
 
 // Frontend Integration Functions
 class DentalFrontend {
+    static isAuthenticated() {
+        try {
+            const token = localStorage.getItem('authToken');
+            return Boolean(token);
+        } catch (_) {
+            return false;
+        }
+    }
+
+    static requireAuth(redirectPath = window.location.pathname) {
+        if (!this.isAuthenticated()) {
+            const target = redirectPath || 'index.html';
+            const url = `patient-portal.html?redirect=${encodeURIComponent(target)}`;
+            window.location.href = url;
+            return false;
+        }
+        return true;
+    }
+
+    static saveAuth(token, patientId) {
+        try {
+            if (token) localStorage.setItem('authToken', token);
+            if (patientId) localStorage.setItem('patientId', String(patientId));
+        } catch (_) {
+            // no-op
+        }
+    }
+
+    static logout() {
+        try {
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('patientId');
+        } catch (_) {
+            // no-op
+        }
+    }
     static async loadServices() {
         try {
             const services = await DentalAPI.getServices();
