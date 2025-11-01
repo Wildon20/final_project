@@ -37,7 +37,7 @@
 
     .portal-hero {
       background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
-                  url('https://images.unsplash.com/photo-1559757148-5c350d0d3c56?q=80&w=2070&auto=format&fit=crop') center/cover;
+                  url('https://cdn.aarp.net/content/dam/aarp/health/conditions_treatments/2023/11/1140-navigating-patient-portal.jpg') center/cover;
       color: white;
       padding: 6rem 0;
       text-align: center;
@@ -213,12 +213,112 @@
               <button type="submit" class="btn btn-primary w-100">Sign In</button>
             </form>
             <div class="text-center mt-3">
-              <a href="#" class="text-decoration-none">Forgot Password?</a>
+              <a href="#" class="text-decoration-none" onclick="showForgotPassword()">Forgot Password?</a>
             </div>
             <hr class="my-4">
             <div class="text-center">
               <p class="mb-2">New Patient?</p>
-              <a href="appointment.html" class="btn btn-outline-primary">Register Here</a>
+              <button class="btn btn-outline-primary" onclick="showRegistrationForm()">Register Here</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Registration Section -->
+  <section class="py-5" id="registrationSection" style="display: none;">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-8">
+          <div class="login-form">
+            <h3 class="text-center mb-4">Create Your Account</h3>
+            <form id="registrationForm">
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label for="regFirstName" class="form-label">First Name *</label>
+                  <input type="text" class="form-control" id="regFirstName" name="first_name" required>
+                </div>
+                <div class="col-md-6">
+                  <label for="regLastName" class="form-label">Last Name *</label>
+                  <input type="text" class="form-control" id="regLastName" name="last_name" required>
+                </div>
+                <div class="col-md-6">
+                  <label for="regEmail" class="form-label">Email Address *</label>
+                  <input type="email" class="form-control" id="regEmail" name="email" required>
+                </div>
+                <div class="col-md-6">
+                  <label for="regPhone" class="form-label">Phone Number *</label>
+                  <input type="tel" class="form-control" id="regPhone" name="phone" required>
+                </div>
+                <div class="col-md-6">
+                  <label for="regDateOfBirth" class="form-label">Date of Birth *</label>
+                  <input type="date" class="form-control" id="regDateOfBirth" name="date_of_birth" required>
+                </div>
+                <div class="col-md-6">
+                  <label for="regGender" class="form-label">Gender *</label>
+                  <select class="form-control" id="regGender" name="gender" required>
+                    <option value="">Select gender</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                    <option value="prefer-not">Prefer not to say</option>
+                  </select>
+                </div>
+                <div class="col-12">
+                  <label for="regPassword" class="form-label">Password *</label>
+                  <input type="password" class="form-control" id="regPassword" name="password" required minlength="6">
+                  <small class="text-muted">Password must be at least 6 characters long</small>
+                </div>
+                <div class="col-12">
+                  <label for="regConfirmPassword" class="form-label">Confirm Password *</label>
+                  <input type="password" class="form-control" id="regConfirmPassword" name="confirm_password" required>
+                </div>
+                <div class="col-12">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="regMarketingConsent" name="marketing_consent">
+                    <label class="form-check-label" for="regMarketingConsent">
+                      I would like to receive updates about dental health tips and special offers
+                    </label>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="regTermsConsent" name="terms_consent" required>
+                    <label class="form-check-label" for="regTermsConsent">
+                      I agree to the <a href="#" target="_blank">terms and conditions</a> and 
+                      <a href="#" target="_blank">privacy policy</a> *
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div class="text-center mt-4">
+                <button type="submit" class="btn btn-primary me-3">Create Account</button>
+                <button type="button" class="btn btn-outline-secondary" onclick="showLoginForm()">Back to Login</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Forgot Password Section -->
+  <section class="py-5" id="forgotPasswordSection" style="display: none;">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-6">
+          <div class="login-form">
+            <h3 class="text-center mb-4">Reset Your Password</h3>
+            <form id="forgotPasswordForm">
+              <div class="mb-3">
+                <label for="forgotEmail" class="form-label">Email Address</label>
+                <input type="email" class="form-control" id="forgotEmail" name="email" required>
+              </div>
+              <button type="submit" class="btn btn-primary w-100">Send Reset Link</button>
+            </form>
+            <div class="text-center mt-3">
+              <button class="btn btn-outline-secondary" onclick="showLoginForm()">Back to Login</button>
             </div>
           </div>
         </div>
@@ -473,29 +573,108 @@
       } catch (_) { showLogin(); }
     })();
 
+    // Form switching functions
+    function showLoginForm() {
+      console.log('Switching to login form');
+      document.getElementById('loginSection').style.display = 'block';
+      document.getElementById('registrationSection').style.display = 'none';
+      document.getElementById('forgotPasswordSection').style.display = 'none';
+    }
+
+    function showRegistrationForm() {
+      console.log('Switching to registration form');
+      document.getElementById('loginSection').style.display = 'none';
+      document.getElementById('registrationSection').style.display = 'block';
+      document.getElementById('forgotPasswordSection').style.display = 'none';
+    }
+
+    function showForgotPassword() {
+      console.log('Switching to forgot password form');
+      document.getElementById('loginSection').style.display = 'none';
+      document.getElementById('registrationSection').style.display = 'none';
+      document.getElementById('forgotPasswordSection').style.display = 'block';
+    }
+
+    // Initialize - check if page is loaded properly
+    console.log('Patient portal page loaded');
+    console.log('DentalAPI available:', typeof window.DentalAPI !== 'undefined');
+    console.log('DentalFrontend available:', typeof window.DentalFrontend !== 'undefined');
+
+    // Helper function to safely show error
+    function showErrorMessage(message) {
+      if (window.DentalFrontend && typeof DentalFrontend.showError === 'function') {
+        DentalFrontend.showError(message);
+      } else {
+        alert('Error: ' + message);
+      }
+    }
+
+    // Helper function to safely show success
+    function showSuccessMessage(message) {
+      if (window.DentalFrontend && typeof DentalFrontend.showSuccess === 'function') {
+        DentalFrontend.showSuccess(message);
+      } else {
+        alert(message);
+      }
+    }
+
+    // Check if API is available
+    function checkAPIAvailable() {
+      if (!window.DentalAPI) {
+        console.error('DentalAPI not available');
+        showErrorMessage('API integration failed to load. Please refresh the page.');
+        return false;
+      }
+      return true;
+    }
+
     // Login functionality (real API)
     document.getElementById('loginForm').addEventListener('submit', async function(e) {
       e.preventDefault();
+      
+      if (!checkAPIAvailable()) return;
+      
       const email = document.getElementById('email').value.trim();
       const password = document.getElementById('password').value;
+      
       if (!email || !password) {
-        alert('Please enter both email and password');
+        showErrorMessage('Please enter both email and password');
         return;
       }
 
+      // Show loading state
+      const submitBtn = this.querySelector('button[type="submit"]');
+      const originalText = submitBtn.textContent;
+      submitBtn.textContent = 'Signing In...';
+      submitBtn.disabled = true;
+
       try {
+        console.log('Attempting login for:', email);
         const res = await DentalAPI.loginPatient(email, password);
+        console.log('Login response:', res);
+        
         if (res && res.success && res.data && res.data.token) {
           const token = res.data.token;
           const patient = res.data.patient;
           const patientId = patient?.id || patient?.patient_id || patient?.ID || null;
 
           // Save auth and basic identity
-          DentalFrontend.saveAuth(token, patientId);
+          if (window.DentalFrontend && typeof DentalFrontend.saveAuth === 'function') {
+            DentalFrontend.saveAuth(token, patientId);
+          } else {
+            localStorage.setItem('authToken', token);
+            if (patientId) localStorage.setItem('patientId', String(patientId));
+          }
+          
           try { localStorage.setItem('patientEmail', email); } catch (_) {}
 
           // Analytics
-          gtag('event', 'patient_portal_login', { event_category: 'portal', event_label: 'Patient Portal Login' });
+          if (typeof gtag === 'function') {
+            gtag('event', 'patient_portal_login', { event_category: 'portal', event_label: 'Patient Portal Login' });
+          }
+
+          // Show success message
+          showSuccessMessage('Login successful! Welcome back.');
 
           // Redirect logic
           const urlRedirect = getQueryParam('redirect');
@@ -503,7 +682,9 @@
           const target = urlRedirect || sessionRedirect;
           if (target) {
             sessionStorage.removeItem('postLoginRedirect');
-            window.location.href = target;
+            setTimeout(() => {
+              window.location.href = target;
+            }, 1000);
             return;
           }
 
@@ -513,41 +694,193 @@
             : (email.split('@')[0]);
           showDashboard(displayName);
         } else {
-          alert(res?.message || 'Login failed. Please check your credentials.');
+          showErrorMessage(res?.message || 'Login failed. Please check your credentials.');
         }
       } catch (err) {
-        alert('Login failed. Please try again.');
+        console.error('Login error:', err);
+        showErrorMessage('Login failed: ' + (err.message || 'Please check your internet connection and try again.'));
+      } finally {
+        // Reset button state
+        submitBtn.textContent = originalText;
+        submitBtn.disabled = false;
+      }
+    });
+
+    // Registration functionality
+    document.getElementById('registrationForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      
+      if (!checkAPIAvailable()) return;
+      
+      const formData = new FormData(this);
+      const password = formData.get('password');
+      const confirmPassword = formData.get('confirm_password');
+      
+      // Validate password confirmation
+      if (password !== confirmPassword) {
+        showErrorMessage('Passwords do not match');
+        return;
+      }
+      
+      // Validate password length
+      if (password.length < 6) {
+        showErrorMessage('Password must be at least 6 characters long');
+        return;
+      }
+      
+      // Check terms consent
+      if (!document.getElementById('regTermsConsent').checked) {
+        showErrorMessage('Please agree to the terms and conditions');
+        return;
+      }
+      
+      // Prepare registration data
+      const registrationData = {
+        first_name: formData.get('first_name'),
+        last_name: formData.get('last_name'),
+        email: formData.get('email'),
+        phone: formData.get('phone'),
+        date_of_birth: formData.get('date_of_birth'),
+        gender: formData.get('gender'),
+        password: password,
+        marketing_consent: formData.get('marketing_consent') === 'on',
+        reminder_consent: true
+      };
+      
+      // Show loading state
+      const submitBtn = this.querySelector('button[type="submit"]');
+      const originalText = submitBtn.textContent;
+      submitBtn.textContent = 'Creating Account...';
+      submitBtn.disabled = true;
+      
+      try {
+        console.log('Attempting registration for:', registrationData.email);
+        const res = await DentalAPI.registerPatient(registrationData);
+        console.log('Registration response:', res);
+        
+        if (res && res.success && res.data && res.data.token) {
+          const token = res.data.token;
+          const patient = res.data.patient;
+          const patientId = patient?.id || patient?.patient_id || patient?.ID || null;
+          
+          // Save auth and basic identity
+          if (window.DentalFrontend && typeof DentalFrontend.saveAuth === 'function') {
+            DentalFrontend.saveAuth(token, patientId);
+          } else {
+            localStorage.setItem('authToken', token);
+            if (patientId) localStorage.setItem('patientId', String(patientId));
+          }
+          
+          try { localStorage.setItem('patientEmail', registrationData.email); } catch (_) {}
+          
+          // Analytics
+          if (typeof gtag === 'function') {
+            gtag('event', 'patient_registration', { event_category: 'portal', event_label: 'Patient Registration' });
+          }
+          
+          // Show success message
+          showSuccessMessage('Account created successfully! Welcome to DR T DENTAL.');
+          
+          // Show dashboard
+          const displayName = (patient?.first_name && patient?.last_name)
+            ? `${patient.first_name} ${patient.last_name}`
+            : (registrationData.email.split('@')[0]);
+          showDashboard(displayName);
+        } else {
+          showErrorMessage(res?.message || 'Registration failed. Please try again.');
+        }
+      } catch (err) {
+        console.error('Registration error:', err);
+        showErrorMessage('Registration failed: ' + (err.message || 'Please check your internet connection and try again.'));
+      } finally {
+        // Reset button state
+        submitBtn.textContent = originalText;
+        submitBtn.disabled = false;
+      }
+    });
+    
+    // Forgot password functionality
+    document.getElementById('forgotPasswordForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      
+      if (!checkAPIAvailable()) return;
+      
+      const email = document.getElementById('forgotEmail').value.trim();
+      
+      if (!email) {
+        showErrorMessage('Please enter your email address');
+        return;
+      }
+      
+      // Show loading state
+      const submitBtn = this.querySelector('button[type="submit"]');
+      const originalText = submitBtn.textContent;
+      submitBtn.textContent = 'Sending...';
+      submitBtn.disabled = true;
+      
+      try {
+        const res = await DentalAPI.makeRequest('auth.php?action=forgot-password', 'POST', { email });
+        if (res && res.success) {
+          showSuccessMessage('Password reset instructions have been sent to your email.');
+          showLoginForm();
+        } else {
+          showErrorMessage(res?.message || 'Failed to send reset instructions. Please try again.');
+        }
+      } catch (err) {
+        console.error('Forgot password error:', err);
+        showErrorMessage('Failed to send reset instructions. Please try again.');
+      } finally {
+        // Reset button state
+        submitBtn.textContent = originalText;
+        submitBtn.disabled = false;
       }
     });
 
     function logout() {
+      console.log('Logout button clicked');
       try {
-        if (window.DentalFrontend) DentalFrontend.logout();
+        if (window.DentalFrontend && typeof DentalFrontend.logout === 'function') {
+          DentalFrontend.logout();
+        } else {
+          localStorage.removeItem('authToken');
+          localStorage.removeItem('patientId');
+        }
         localStorage.removeItem('patientEmail');
-      } catch (_) {}
+      } catch (err) {
+        console.error('Logout error:', err);
+      }
       document.getElementById('loginSection').style.display = 'block';
       document.getElementById('portalDashboard').style.display = 'none';
       document.getElementById('loginForm').reset();
-      gtag('event', 'patient_portal_logout', { event_category: 'portal', event_label: 'Patient Portal Logout' });
+      
+      if (typeof gtag === 'function') {
+        gtag('event', 'patient_portal_logout', { event_category: 'portal', event_label: 'Patient Portal Logout' });
+      }
     }
 
     function downloadForms() {
+      console.log('Download forms button clicked');
       // Simulate form download
       alert('Forms will be downloaded to your device');
       
-      gtag('event', 'forms_download', {
-        event_category: 'portal',
-        event_label: 'Patient Forms Download'
-      });
+      if (typeof gtag === 'function') {
+        gtag('event', 'forms_download', {
+          event_category: 'portal',
+          event_label: 'Patient Forms Download'
+        });
+      }
     }
 
     function openSettings() {
+      console.log('Settings button clicked');
       alert('Settings panel will open here');
       
-      gtag('event', 'settings_open', {
-        event_category: 'portal',
-        event_label: 'Patient Portal Settings'
-      });
+      if (typeof gtag === 'function') {
+        gtag('event', 'settings_open', {
+          event_category: 'portal',
+          event_label: 'Patient Portal Settings'
+        });
+      }
     }
   </script>
 </body>

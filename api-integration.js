@@ -1,12 +1,93 @@
 // DR T DENTAL API Integration
 // This script handles all API calls to your PHP backend
 
-const API_BASE_URL = 'http://localhost/php-backend/api';
+// Auto-detect the correct API base URL
+function getAPIBaseURL() {
+    // MANUAL CONFIGURATION - Uncomment and set the correct path for your setup:
+    
+    // Option 1: XAMPP default (project directly in htdocs/graduation-project)
+    // return 'http://localhost/graduation-project/php-backend/api';
+    
+    // Option 2: XAMPP with port (if using custom port)
+    // return 'http://localhost:8080/graduation-project/php-backend/api';
+    
+    // Option 3: XAMPP default (php-backend directly in htdocs)
+    // return 'http://localhost/php-backend/api';
+    
+    // Option 4: Auto-detect based on current location (default behavior)
+    const currentPath = window.location.pathname;
+    console.log('Current path:', currentPath);
+    
+    // Extract the path from current URL
+    const pathParts = currentPath.split('/').filter(p => p);
+    
+    // Remove filename if present
+    if (pathParts.length > 0 && pathParts[pathParts.length - 1].includes('.')) {
+        pathParts.pop();
+    }
+    
+    const relativePath = pathParts.join('/');
+    
+    console.log('Relative path parts:', pathParts);
+    console.log('Relative path:', relativePath);
+    
+    // Build the API URL based on current location
+    const protocol = window.location.protocol;
+    const host = window.location.hostname;
+    const port = window.location.port;
+    
+    // Construct URL with full path
+    let apiUrl;
+    if (port) {
+        apiUrl = relativePath 
+            ? `${protocol}//${host}:${port}/${relativePath}/php-backend/api`
+            : `${protocol}//${host}:${port}/php-backend/api`;
+    } else {
+        apiUrl = relativePath 
+            ? `${protocol}//${host}/${relativePath}/php-backend/api`
+            : `${protocol}//${host}/php-backend/api`;
+    }
+    
+    console.log('Detected API URL:', apiUrl);
+    console.log('Full URL will be:', apiUrl + '/auth.php?action=register');
+    
+    return apiUrl;
+}
+
+// Try multiple possible API URLs
+function testAPIUrl(url) {
+    console.log('Testing URL:', url);
+    fetch(url + '?action=login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: 'test', password: 'test' })
+    })
+    .then(response => {
+        console.log(`✅ URL WORKS! ${url} - Status: ${response.status}`);
+        return response.text();
+    })
+    .then(text => console.log('Response:', text))
+    .catch(error => console.log(`❌ URL failed: ${url} - Error: ${error.message}`));
+}
+
+const API_BASE_URL = getAPIBaseURL();
+console.log('=== API CONFIGURATION ===');
+console.log('Current location:', window.location.href);
+console.log('API Base URL:', API_BASE_URL);
+console.log('Test URL:', API_BASE_URL + '/auth.php?action=register');
+console.log('======================');
 
 // API Helper Functions
 class DentalAPI {
     static async makeRequest(endpoint, method = 'GET', data = null) {
         const url = `${API_BASE_URL}/${endpoint}`;
+        console.log('API Request:', {
+            method,
+            url,
+            endpoint,
+            data: data ? 'Data present' : 'No data'
+        });
+        
         const options = {
             method: method,
             headers: {
@@ -29,13 +110,44 @@ class DentalAPI {
         }
 
         try {
+            console.log('Sending request to:', url);
             const response = await fetch(url, options);
+            console.log('Response status:', response.status, response.statusText);
+            
             if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+                let errorText = '';
+                try {
+                    errorText = await response.text();
+                } catch (e) {
+                    errorText = `Failed to read error response. Status: ${response.status}`;
+                }
+                console.error('Response error:', errorText);
+                
+                let errorMessage = `HTTP error! status: ${response.status}`;
+                if (response.status === 404) {
+                    errorMessage = `Page not found (404). The API endpoint '${endpoint}' does not exist. Please check if the PHP backend is running and the file path is correct.`;
+                }
+                throw new Error(errorMessage);
             }
-            return await response.json();
+            
+            let responseText = '';
+            try {
+                responseText = await response.text();
+                const jsonResponse = JSON.parse(responseText);
+                console.log('API Response:', jsonResponse);
+                return jsonResponse;
+            } catch (parseError) {
+                console.error('Failed to parse JSON:', parseError);
+                console.log('Response text:', responseText);
+                throw new Error('Invalid JSON response from server');
+            }
         } catch (error) {
-            console.error('API Error:', error);
+            console.error('API Error Details:', {
+                error: error.message,
+                url: url,
+                endpoint: endpoint,
+                method: method
+            });
             throw error;
         }
     }

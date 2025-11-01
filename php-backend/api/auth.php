@@ -1,4 +1,8 @@
 <?php
+// Suppress warnings for better JSON output
+error_reporting(E_ALL & ~E_WARNING & ~E_NOTICE);
+ini_set('display_errors', 0);
+
 header("Content-Type: application/json; charset=UTF-8");
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
@@ -19,11 +23,22 @@ $db = $database->getConnection();
 $patient = new Patient($db);
 
 $method = $_SERVER['REQUEST_METHOD'];
-$request = explode('/', trim($_SERVER['PATH_INFO'], '/'));
-$action = $request[0] ?? '';
+
+// Handle both PATH_INFO and query parameter routing
+$action = '';
+// Check if PATH_INFO exists and is not empty
+if (isset($_SERVER['PATH_INFO']) && !empty($_SERVER['PATH_INFO'])) {
+    $request = explode('/', trim($_SERVER['PATH_INFO'], '/'));
+    $action = $request[0] ?? '';
+} elseif (isset($_GET['action'])) {
+    $action = $_GET['action'];
+}
 
 // Get request data
 $data = json_decode(file_get_contents("php://input"));
+
+// Debug logging (comment out in production)
+// error_log("API Debug - Method: $method, Action: $action, Data: " . json_encode($data));
 
 // Response helper function
 function sendResponse($success, $message, $data = null, $http_code = 200) {

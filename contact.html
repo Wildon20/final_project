@@ -449,10 +449,10 @@
           <div class="contact-card">
             <i class="fas fa-file-alt contact-icon"></i>
             <h4>Patient Forms</h4>
-            <p>Download and complete your patient forms before your visit to save time.</p>
-            <a href="#" class="btn btn-primary">
-              <i class="fas fa-download me-2"></i>Download Forms
-            </a>
+            <p>Complete your patient information form online before your visit to save time.</p>
+            <button onclick="showPatientForm()" class="btn btn-primary">
+              <i class="fas fa-edit me-2"></i>Fill Patient Form
+            </button>
           </div>
         </div>
         <div class="col-md-6">
@@ -460,7 +460,7 @@
             <i class="fas fa-question-circle contact-icon"></i>
             <h4>FAQ</h4>
             <p>Find answers to common questions about our services and procedures.</p>
-            <a href="#" class="btn btn-primary">
+            <a href="index.html#faq" class="btn btn-primary">
               <i class="fas fa-search me-2"></i>View FAQ
             </a>
           </div>
@@ -468,6 +468,269 @@
       </div>
     </div>
   </section>
+
+  <!-- Patient Form Modal -->
+  <div class="modal fade" id="patientFormModal" tabindex="-1" aria-labelledby="patientFormModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="patientFormModalLabel">
+            <i class="fas fa-user-md me-2"></i>Patient Information Form
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="patientForm">
+            <!-- Personal Information -->
+            <div class="row mb-4">
+              <div class="col-12">
+                <h6 class="text-primary border-bottom pb-2 mb-3">
+                  <i class="fas fa-user me-2"></i>Personal Information
+                </h6>
+              </div>
+              <div class="col-md-6">
+                <label for="patientFirstName" class="form-label">First Name *</label>
+                <input type="text" class="form-control" id="patientFirstName" name="first_name" required>
+              </div>
+              <div class="col-md-6">
+                <label for="patientLastName" class="form-label">Last Name *</label>
+                <input type="text" class="form-control" id="patientLastName" name="last_name" required>
+              </div>
+              <div class="col-md-6">
+                <label for="patientEmail" class="form-label">Email Address *</label>
+                <input type="email" class="form-control" id="patientEmail" name="email" required>
+              </div>
+              <div class="col-md-6">
+                <label for="patientPhone" class="form-label">Phone Number *</label>
+                <input type="tel" class="form-control" id="patientPhone" name="phone" required>
+              </div>
+              <div class="col-md-6">
+                <label for="patientDateOfBirth" class="form-label">Date of Birth *</label>
+                <input type="date" class="form-control" id="patientDateOfBirth" name="date_of_birth" required>
+              </div>
+              <div class="col-md-6">
+                <label for="patientGender" class="form-label">Gender *</label>
+                <select class="form-control" id="patientGender" name="gender" required>
+                  <option value="">Select gender</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                  <option value="other">Other</option>
+                  <option value="prefer-not">Prefer not to say</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Address Information -->
+            <div class="row mb-4">
+              <div class="col-12">
+                <h6 class="text-primary border-bottom pb-2 mb-3">
+                  <i class="fas fa-map-marker-alt me-2"></i>Address Information
+                </h6>
+              </div>
+              <div class="col-12">
+                <label for="patientAddress" class="form-label">Street Address</label>
+                <input type="text" class="form-control" id="patientAddress" name="street_address" 
+                       placeholder="Street address, apartment, suite, etc.">
+              </div>
+              <div class="col-md-4">
+                <label for="patientCity" class="form-label">City</label>
+                <input type="text" class="form-control" id="patientCity" name="city">
+              </div>
+              <div class="col-md-4">
+                <label for="patientPostalCode" class="form-label">Postal Code</label>
+                <input type="text" class="form-control" id="patientPostalCode" name="postal_code">
+              </div>
+              <div class="col-md-4">
+                <label for="patientCountry" class="form-label">Country</label>
+                <select class="form-control" id="patientCountry" name="country">
+                  <option value="Eswatini" selected>Eswatini</option>
+                  <option value="South Africa">South Africa</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Emergency Contact -->
+            <div class="row mb-4">
+              <div class="col-12">
+                <h6 class="text-primary border-bottom pb-2 mb-3">
+                  <i class="fas fa-phone me-2"></i>Emergency Contact
+                </h6>
+              </div>
+              <div class="col-md-6">
+                <label for="emergencyContactName" class="form-label">Emergency Contact Name</label>
+                <input type="text" class="form-control" id="emergencyContactName" name="emergency_contact_name" 
+                       placeholder="Full name">
+              </div>
+              <div class="col-md-6">
+                <label for="emergencyContactRelationship" class="form-label">Relationship</label>
+                <select class="form-control" id="emergencyContactRelationship" name="emergency_contact_relationship">
+                  <option value="">Select relationship</option>
+                  <option value="spouse">Spouse</option>
+                  <option value="parent">Parent</option>
+                  <option value="child">Child</option>
+                  <option value="sibling">Sibling</option>
+                  <option value="friend">Friend</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label for="emergencyContactPhone" class="form-label">Emergency Contact Phone</label>
+                <input type="tel" class="form-control" id="emergencyContactPhone" name="emergency_contact_phone">
+              </div>
+            </div>
+
+            <!-- Insurance Information -->
+            <div class="row mb-4">
+              <div class="col-12">
+                <h6 class="text-primary border-bottom pb-2 mb-3">
+                  <i class="fas fa-shield-alt me-2"></i>Insurance Information
+                </h6>
+              </div>
+              <div class="col-md-6">
+                <label for="insuranceProvider" class="form-label">Insurance Provider</label>
+                <input type="text" class="form-control" id="insuranceProvider" name="insurance_provider" 
+                       placeholder="e.g., Delta Dental, Cigna">
+              </div>
+              <div class="col-md-6">
+                <label for="insuranceMemberId" class="form-label">Member ID</label>
+                <input type="text" class="form-control" id="insuranceMemberId" name="insurance_member_id">
+              </div>
+              <div class="col-md-6">
+                <label for="insuranceGroupNumber" class="form-label">Group Number</label>
+                <input type="text" class="form-control" id="insuranceGroupNumber" name="insurance_group_number">
+              </div>
+              <div class="col-md-6">
+                <div class="form-check mt-4">
+                  <input class="form-check-input" type="checkbox" id="insuranceActive" name="insurance_active">
+                  <label class="form-check-label" for="insuranceActive">
+                    Insurance is currently active
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Medical History -->
+            <div class="row mb-4">
+              <div class="col-12">
+                <h6 class="text-primary border-bottom pb-2 mb-3">
+                  <i class="fas fa-heartbeat me-2"></i>Medical History
+                </h6>
+              </div>
+              <div class="col-12">
+                <label for="allergies" class="form-label">Allergies</label>
+                <textarea class="form-control" id="allergies" name="allergies" rows="2" 
+                          placeholder="List any known allergies (medications, foods, materials, etc.)"></textarea>
+              </div>
+              <div class="col-12">
+                <label for="medications" class="form-label">Current Medications</label>
+                <textarea class="form-control" id="medications" name="medications" rows="2" 
+                          placeholder="List all current medications, including dosage and frequency"></textarea>
+              </div>
+              <div class="col-12">
+                <label for="medicalConditions" class="form-label">Medical Conditions</label>
+                <textarea class="form-control" id="medicalConditions" name="medical_conditions" rows="2" 
+                          placeholder="List any current or past medical conditions"></textarea>
+              </div>
+              <div class="col-12">
+                <label for="previousDentalWork" class="form-label">Previous Dental Work</label>
+                <textarea class="form-control" id="previousDentalWork" name="previous_dental_work" rows="2" 
+                          placeholder="Describe any previous dental work, surgeries, or treatments"></textarea>
+              </div>
+            </div>
+
+            <!-- Dental Concerns -->
+            <div class="row mb-4">
+              <div class="col-12">
+                <h6 class="text-primary border-bottom pb-2 mb-3">
+                  <i class="fas fa-tooth me-2"></i>Dental Concerns
+                </h6>
+              </div>
+              <div class="col-12">
+                <label for="dentalConcerns" class="form-label">Current Dental Concerns</label>
+                <textarea class="form-control" id="dentalConcerns" name="dental_concerns" rows="3" 
+                          placeholder="Describe any current dental issues, pain, or concerns"></textarea>
+              </div>
+              <div class="col-12">
+                <label for="dentalGoals" class="form-label">Dental Goals</label>
+                <textarea class="form-control" id="dentalGoals" name="dental_goals" rows="2" 
+                          placeholder="What would you like to achieve with your dental treatment?"></textarea>
+              </div>
+            </div>
+
+            <!-- Preferences -->
+            <div class="row mb-4">
+              <div class="col-12">
+                <h6 class="text-primary border-bottom pb-2 mb-3">
+                  <i class="fas fa-cog me-2"></i>Preferences
+                </h6>
+              </div>
+              <div class="col-md-6">
+                <label for="preferredContactMethod" class="form-label">Preferred Contact Method</label>
+                <select class="form-control" id="preferredContactMethod" name="preferred_contact_method">
+                  <option value="email">Email</option>
+                  <option value="phone">Phone</option>
+                  <option value="sms">SMS</option>
+                  <option value="whatsapp">WhatsApp</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label for="preferredAppointmentTime" class="form-label">Preferred Appointment Time</label>
+                <select class="form-control" id="preferredAppointmentTime" name="preferred_appointment_time">
+                  <option value="morning">Morning (9 AM - 12 PM)</option>
+                  <option value="afternoon">Afternoon (12 PM - 5 PM)</option>
+                  <option value="evening">Evening (5 PM - 7 PM)</option>
+                  <option value="anytime">Anytime</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Consent and Agreements -->
+            <div class="row mb-4">
+              <div class="col-12">
+                <h6 class="text-primary border-bottom pb-2 mb-3">
+                  <i class="fas fa-check-circle me-2"></i>Consent and Agreements
+                </h6>
+              </div>
+              <div class="col-12">
+                <div class="form-check mb-2">
+                  <input class="form-check-input" type="checkbox" id="marketingConsent" name="marketing_consent">
+                  <label class="form-check-label" for="marketingConsent">
+                    I would like to receive updates about dental health tips and special offers
+                  </label>
+                </div>
+                <div class="form-check mb-2">
+                  <input class="form-check-input" type="checkbox" id="reminderConsent" name="reminder_consent" checked>
+                  <label class="form-check-label" for="reminderConsent">
+                    I would like to receive appointment reminders via my preferred contact method
+                  </label>
+                </div>
+                <div class="form-check mb-2">
+                  <input class="form-check-input" type="checkbox" id="termsConsent" name="terms_consent" required>
+                  <label class="form-check-label" for="termsConsent">
+                    I agree to the <a href="#" target="_blank">terms and conditions</a> and 
+                    <a href="#" target="_blank">privacy policy</a> *
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="dataConsent" name="data_consent" required>
+                  <label class="form-check-label" for="dataConsent">
+                    I consent to DR T DENTAL collecting and processing my personal data for treatment purposes *
+                  </label>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-primary" onclick="submitPatientForm()">
+            <i class="fas fa-save me-2"></i>Submit Form
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- Book Now Button -->
   <a href="appointment.html" class="book-now-btn">
@@ -522,6 +785,107 @@
         // Fallback to contact form
         document.getElementById('contactForm').scrollIntoView({ behavior: 'smooth' });
       }
+    }
+
+    // Patient form functions
+    function showPatientForm() {
+      const modal = new bootstrap.Modal(document.getElementById('patientFormModal'));
+      modal.show();
+    }
+
+    function submitPatientForm() {
+      const form = document.getElementById('patientForm');
+      const formData = new FormData(form);
+      
+      // Validate required fields
+      const requiredFields = ['first_name', 'last_name', 'email', 'phone', 'date_of_birth', 'gender'];
+      let isValid = true;
+      
+      requiredFields.forEach(field => {
+        const input = form.querySelector(`[name="${field}"]`);
+        if (!input.value.trim()) {
+          input.classList.add('is-invalid');
+          isValid = false;
+        } else {
+          input.classList.remove('is-invalid');
+        }
+      });
+      
+      // Check consent checkboxes
+      const termsConsent = document.getElementById('termsConsent');
+      const dataConsent = document.getElementById('dataConsent');
+      
+      if (!termsConsent.checked || !dataConsent.checked) {
+        alert('Please agree to the terms and conditions and data consent to continue.');
+        return;
+      }
+      
+      if (!isValid) {
+        alert('Please fill in all required fields.');
+        return;
+      }
+      
+      // Prepare data for submission
+      const patientData = {
+        first_name: formData.get('first_name'),
+        last_name: formData.get('last_name'),
+        email: formData.get('email'),
+        phone: formData.get('phone'),
+        date_of_birth: formData.get('date_of_birth'),
+        gender: formData.get('gender'),
+        street_address: formData.get('street_address') || '',
+        city: formData.get('city') || '',
+        postal_code: formData.get('postal_code') || '',
+        country: formData.get('country') || 'Eswatini',
+        emergency_contact_name: formData.get('emergency_contact_name') || '',
+        emergency_contact_relationship: formData.get('emergency_contact_relationship') || '',
+        emergency_contact_phone: formData.get('emergency_contact_phone') || '',
+        insurance_provider: formData.get('insurance_provider') || '',
+        insurance_member_id: formData.get('insurance_member_id') || '',
+        insurance_group_number: formData.get('insurance_group_number') || '',
+        insurance_active: formData.get('insurance_active') === 'on',
+        allergies: formData.get('allergies') || '',
+        medications: formData.get('medications') || '',
+        medical_conditions: formData.get('medical_conditions') || '',
+        previous_dental_work: formData.get('previous_dental_work') || '',
+        dental_concerns: formData.get('dental_concerns') || '',
+        dental_goals: formData.get('dental_goals') || '',
+        preferred_contact_method: formData.get('preferred_contact_method') || 'email',
+        preferred_appointment_time: formData.get('preferred_appointment_time') || 'anytime',
+        marketing_consent: formData.get('marketing_consent') === 'on',
+        reminder_consent: formData.get('reminder_consent') === 'on'
+      };
+      
+      // Show loading state
+      const submitBtn = document.querySelector('#patientFormModal .btn-primary');
+      const originalText = submitBtn.innerHTML;
+      submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Submitting...';
+      submitBtn.disabled = true;
+      
+      // Simulate form submission (replace with actual API call)
+      setTimeout(() => {
+        console.log('Patient form submitted:', patientData);
+        
+        // Show success message
+        alert('Thank you! Your patient information has been submitted successfully. We will contact you soon to schedule your appointment.');
+        
+        // Reset form and close modal
+        form.reset();
+        const modal = bootstrap.Modal.getInstance(document.getElementById('patientFormModal'));
+        modal.hide();
+        
+        // Reset button state
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+        
+        // Analytics
+        if (typeof gtag !== 'undefined') {
+          gtag('event', 'patient_form_submission', {
+            event_category: 'contact',
+            event_label: 'Patient Form Submission'
+          });
+        }
+      }, 2000);
     }
   </script>
 
