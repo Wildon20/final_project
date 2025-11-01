@@ -167,7 +167,12 @@ class DentalAPI {
     }
 
     static async getAppointments(patientId) {
-        return await this.makeRequest(`appointments.php?patient_id=${patientId}`);
+        const response = await this.makeRequest(`appointments.php?patient_id=${patientId}`);
+        // Return appointments array directly if response has data.appointments
+        if (response && response.data && response.data.appointments) {
+            return response.data.appointments;
+        }
+        return response?.data || [];
     }
 
     static async getAvailableSlots(doctorId, date, serviceId) {
@@ -185,7 +190,12 @@ class DentalAPI {
 
     // Medical Records API
     static async getMedicalRecords(patientId) {
-        return await this.makeRequest(`medicalRecords.php?patient_id=${patientId}`);
+        const response = await this.makeRequest(`medicalRecords.php?patient_id=${patientId}`);
+        // Return records array directly if response has data.records
+        if (response && response.data && response.data.records) {
+            return response.data.records;
+        }
+        return response?.data || [];
     }
 }
 
@@ -334,15 +344,30 @@ class DentalFrontend {
     }
 
     static displayMedicalRecords(records) {
-        const recordsContainer = document.getElementById('medical-records-container');
-        if (!recordsContainer) return;
+        // Try both possible container IDs
+        const recordsContainer = document.getElementById('medical-records-container') || 
+                                 document.getElementById('medicalRecords');
+        if (!recordsContainer) {
+            console.warn('Medical records container not found');
+            return;
+        }
+
+        if (!records || records.length === 0) {
+            recordsContainer.innerHTML = '<p class="text-muted">No medical records found.</p>';
+            return;
+        }
 
         recordsContainer.innerHTML = records.map(record => `
-            <div class="medical-record-item">
-                <h6>${record.treatment}</h6>
-                <p>Date: ${record.treatment_date}</p>
-                <p>Doctor: ${record.doctor_name}</p>
-                <p>Diagnosis: ${record.primary_diagnosis}</p>
+            <div class="medical-record">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <h6>${record.treatment || 'Treatment'}</h6>
+                        <p class="mb-2">${record.treatment_provided || record.primary_diagnosis || 'No details available'}</p>
+                        <small class="text-muted">${record.doctor_name || 'Doctor'} - ${record.treatment_date || ''}</small>
+                        ${record.primary_diagnosis ? `<br><small class="text-muted">Diagnosis: ${record.primary_diagnosis}</small>` : ''}
+                    </div>
+                    <span class="status-badge status-${record.status || 'completed'}">${(record.status || 'completed').toUpperCase()}</span>
+                </div>
             </div>
         `).join('');
     }

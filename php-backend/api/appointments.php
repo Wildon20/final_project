@@ -17,8 +17,15 @@ $database = new Database();
 $db = $database->getConnection();
 
 $method = $_SERVER['REQUEST_METHOD'];
-$request = explode('/', trim($_SERVER['PATH_INFO'], '/'));
-$action = $request[0] ?? '';
+
+// Handle both PATH_INFO and query parameter routing
+$action = '';
+if (isset($_SERVER['PATH_INFO']) && !empty($_SERVER['PATH_INFO'])) {
+    $request = explode('/', trim($_SERVER['PATH_INFO'], '/'));
+    $action = $request[0] ?? '';
+} elseif (isset($_GET['action'])) {
+    $action = $_GET['action'];
+}
 
 // Response helper function
 function sendResponse($success, $message, $data = null, $http_code = 200) {
@@ -129,7 +136,22 @@ switch ($method) {
             sendResponse(true, 'Available slots retrieved', $available_slots);
         } else {
             // Get patient appointments (protected endpoint)
-            $patient_id = verifyToken();
+            // Can use either token verification or patient_id from query
+            $patient_id = null;
+            
+            // Try to get patient_id from query parameter
+            if (isset($_GET['patient_id'])) {
+                $patient_id = intval($_GET['patient_id']);
+                
+                // Verify token to ensure user can only access their own appointments
+                $token_user_id = verifyToken();
+                if ($token_user_id != $patient_id) {
+                    sendResponse(false, 'Access denied. You can only view your own appointments.', null, 403);
+                }
+            } else {
+                // If no patient_id, use token to get user ID
+                $patient_id = verifyToken();
+            }
             
             $status = $_GET['status'] ?? '';
             $page = intval($_GET['page'] ?? 1);
