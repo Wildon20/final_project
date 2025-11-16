@@ -788,7 +788,8 @@
       }
 
       const payload = {
-        service: selectedService.querySelector('h5').textContent.toUpperCase().replace(/\s+/g, ''),
+        // Use canonical service code expected by backend (matches services.code)
+        service: selectedService.getAttribute('data-service'),
         service_name: selectedService.querySelector('h5').textContent,
         appointment_date: document.getElementById('appointmentDate').value,
         appointment_time: document.getElementById('appointmentTime').value,
