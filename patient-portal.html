@@ -596,6 +596,19 @@
       document.getElementById('loginSection').style.display = 'none';
       document.getElementById('registrationSection').style.display = 'block';
       document.getElementById('forgotPasswordSection').style.display = 'none';
+
+      // If authenticated, try to auto-fill known fields
+      (async () => {
+        try {
+          const hasToken = window.DentalFrontend && DentalFrontend.isAuthenticated && DentalFrontend.isAuthenticated();
+          if (!hasToken || !window.DentalAPI) return;
+
+          const res = await DentalAPI.makeRequest('auth.php?action=me');
+          if (res && res.success && res.data) {
+            prefillRegistrationForm(res.data);
+          }
+        } catch (_) {}
+      })();
     }
 
     function showForgotPassword() {
@@ -625,6 +638,23 @@
         DentalFrontend.showSuccess(message);
       } else {
         alert(message);
+      }
+    }
+
+    // Auto-fill registration form with current patient data if available
+    function prefillRegistrationForm(patient) {
+      try {
+        if (!patient) return;
+        const byId = (id) => document.getElementById(id);
+
+        if (byId('regFirstName') && patient.first_name) byId('regFirstName').value = patient.first_name;
+        if (byId('regLastName') && patient.last_name) byId('regLastName').value = patient.last_name;
+        if (byId('regEmail') && patient.email) byId('regEmail').value = patient.email;
+        if (byId('regPhone') && patient.phone) byId('regPhone').value = patient.phone;
+        if (byId('regDateOfBirth') && patient.date_of_birth) byId('regDateOfBirth').value = String(patient.date_of_birth).slice(0, 10);
+        if (byId('regGender') && patient.gender) byId('regGender').value = String(patient.gender).toLowerCase();
+      } catch (e) {
+        console.warn('Prefill failed:', e);
       }
     }
 
