@@ -86,14 +86,19 @@ class Patient {
         $stmt->bindParam(":insurance_provider", $this->insurance_provider);
         $stmt->bindParam(":insurance_member_id", $this->insurance_member_id);
         $stmt->bindParam(":insurance_group_number", $this->insurance_group_number);
-        $stmt->bindParam(":insurance_active", $this->insurance_active);
+        // Ensure boolean-like fields are bound as integers (0/1)
+        $insuranceActiveInt = (int) (!!$this->insurance_active);
+        $marketingConsentInt = (int) (!!$this->marketing_consent);
+        $reminderConsentInt = (int) (!!$this->reminder_consent);
+
+        $stmt->bindValue(":insurance_active", $insuranceActiveInt, PDO::PARAM_INT);
         $stmt->bindParam(":allergies", $this->allergies);
         $stmt->bindParam(":medications", $this->medications);
         $stmt->bindParam(":medical_conditions", $this->medical_conditions);
         $stmt->bindParam(":previous_dental_work", $this->previous_dental_work);
         $stmt->bindParam(":preferred_contact_method", $this->preferred_contact_method);
-        $stmt->bindParam(":marketing_consent", $this->marketing_consent);
-        $stmt->bindParam(":reminder_consent", $this->reminder_consent);
+        $stmt->bindValue(":marketing_consent", $marketingConsentInt, PDO::PARAM_INT);
+        $stmt->bindValue(":reminder_consent", $reminderConsentInt, PDO::PARAM_INT);
 
         if($stmt->execute()) {
             $this->id = $this->conn->lastInsertId();
