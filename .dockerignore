@@ -1,0 +1,14 @@
+node_modules
+vendor
+.git
+.gitignore
+.env
+**/.DS_Store
+**/Thumbs.db
+backend/
+UML diagram/
+Appointment C++/
+*.log
+*.sql
+
+

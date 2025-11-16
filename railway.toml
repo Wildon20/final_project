@@ -1,0 +1,21 @@
+[services.backend]
+root = "."
+name = "graduation-project"
+
+# Using Dockerfile at repo root
+dockerfile = "Dockerfile"
+
+# Environment variables to be set in Railway UI or via CLI
+[services.backend.env]
+# Database configuration (Railway MySQL plugin will provide these values)
+# DB_HOST = ""
+# DB_PORT = "3306"
+# DB_NAME = ""
+# DB_USER = ""
+# DB_PASSWORD = ""
+
+# Optional: PHP settings
+# PHP_MEMORY_LIMIT = "256M"
+# PHP_MAX_UPLOAD = "16M"
+
+

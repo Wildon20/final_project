@@ -37,7 +37,7 @@
 
     .testimonials-hero {
       background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
-                  url('https://images.unsplash.com/photo-1559757148-5c350d0d3c56?q=80&w=2070&auto=format&fit=crop') center/cover;
+                  url('https://static.vecteezy.com/system/resources/previews/013/536/363/original/drawing-of-businesswoman-showing-testimonial-card-with-good-reviews-metaphor-for-customer-praise-single-continuous-line-art-vector.jpg') center/cover;
       color: white;
       padding: 6rem 0;
       text-align: center;
@@ -122,6 +122,10 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
+    }
+
+    .before-image img {
+      filter: grayscale(100%);
     }
 
     .before-label, .after-label {
@@ -228,6 +232,9 @@
           <li class="nav-item"><a class="nav-link" href="services.html">Services</a></li>
           <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
           <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
+          <li class="nav-item"><a class="nav-link" href="patient-portal.html">Patient Portal</a></li>
+          <li class="nav-item"><a class="nav-link" href="payment.html">Payment</a></li>
           <li class="nav-item"><a class="nav-link active" href="testimonials.html">Testimonials</a></li>
           <li class="nav-item">
             <button id="themeToggle" class="btn btn-outline-light ms-3">🌙</button>
@@ -303,20 +310,20 @@
           <div class="video-testimonial" data-category="cosmetic">
             <h4>Sarah's Smile Transformation</h4>
             <p class="text-muted mb-3">Teeth Whitening & Veneers</p>
-            <div class="video-placeholder" onclick="playVideo('sarah-video')">
+            <div class="video-placeholder" data-video="https://www.youtube.com/embed/tgbNymZ7vqY">
               <i class="fas fa-play-circle play-button"></i>
               <h5>Watch Sarah's Story</h5>
               <p>From self-conscious to confident in just 2 weeks</p>
             </div>
             <div class="rating-stars">★★★★★</div>
-            <p>"Dr. T completely transformed my smile. I can't stop smiling now!"</p>
+            <p>"Dr. Tsabedze completely transformed my smile. I can't stop smiling now!"</p>
           </div>
         </div>
         <div class="col-lg-6">
           <div class="video-testimonial" data-category="surgical">
             <h4>Michael's Implant Journey</h4>
             <p class="text-muted mb-3">Dental Implants & Restoration</p>
-            <div class="video-placeholder" onclick="playVideo('michael-video')">
+            <div class="video-placeholder" data-video="https://www.youtube.com/embed/XHOmBV4js_E">
               <i class="fas fa-play-circle play-button"></i>
               <h5>Watch Michael's Journey</h5>
               <p>Complete smile restoration with advanced technology</p>
@@ -329,7 +336,7 @@
           <div class="video-testimonial" data-category="orthodontics">
             <h4>Emily's Invisalign Story</h4>
             <p class="text-muted mb-3">Invisalign Treatment</p>
-            <div class="video-placeholder" onclick="playVideo('emily-video')">
+            <div class="video-placeholder" data-video="https://www.youtube.com/embed/ScMzIvxBSi4">
               <i class="fas fa-play-circle play-button"></i>
               <h5>Watch Emily's Progress</h5>
               <p>Straight teeth without traditional braces</p>
@@ -342,7 +349,7 @@
           <div class="video-testimonial" data-category="emergency">
             <h4>John's Emergency Care</h4>
             <p class="text-muted mb-3">Emergency Root Canal</p>
-            <div class="video-placeholder" onclick="playVideo('john-video')">
+            <div class="video-placeholder" data-video="https://www.youtube.com/embed/LXb3EKWsInQ">
               <i class="fas fa-play-circle play-button"></i>
               <h5>Watch John's Experience</h5>
               <p>Same-day emergency treatment and relief</p>
@@ -365,7 +372,7 @@
             <img src="https://i.pravatar.cc/100?img=1" class="testimonial-image" alt="Sarah Johnson">
             <h5>Sarah Johnson</h5>
             <div class="rating-stars">★★★★★</div>
-            <p>"After years of being self-conscious about my smile, Dr. T gave me the confidence I always wanted. The teeth whitening and veneers look so natural!"</p>
+            <p>"After years of being self-conscious about my smile, Dr. Tsabedze gave me the confidence I always wanted. The teeth whitening and veneers look so natural!"</p>
             <small class="text-muted">Teeth Whitening & Veneers</small>
           </div>
         </div>
@@ -383,7 +390,7 @@
             <img src="https://i.pravatar.cc/100?img=3" class="testimonial-image" alt="Emily Davis">
             <div class="rating-stars">★★★★★</div>
             <h5>Emily Davis</h5>
-            <p>"I was terrified of dental surgery, but Dr. T made the entire process comfortable and pain-free. The results exceeded my expectations!"</p>
+            <p>"I was terrified of dental surgery, but Dr. Tsabedze made the entire process comfortable and pain-free. The results exceeded my expectations!"</p>
             <small class="text-muted">Wisdom Tooth Extraction</small>
           </div>
         </div>
@@ -410,7 +417,7 @@
             <img src="https://i.pravatar.cc/100?img=6" class="testimonial-image" alt="Robert Taylor">
             <div class="rating-stars">★★★★★</div>
             <h5>Robert Taylor</h5>
-            <p>"The cosmetic work I had done looks so natural that even my family can't tell I had anything done. Dr. T is truly an artist!"</p>
+            <p>"The cosmetic work I had done looks so natural that even my family can't tell I had anything done. Dr. Mavuso is truly an artist!"</p>
             <small class="text-muted">Cosmetic Bonding</small>
           </div>
         </div>
@@ -427,11 +434,11 @@
           <div class="before-after-card">
             <div class="before-after-images">
               <div class="before-image">
-                <img src="https://www.absolutedental.com/wp-content/uploads/2023/08/Before-and-after-shots-1024x576.jpg" alt="Before">
+                <img src="https://www.absolutedental.com/wp-content/uploads/2023/08/Before-and-after-shots-1024x576.jpg" alt="Teeth Whitening Before">
                 <div class="before-label">Before</div>
               </div>
               <div class="after-image">
-                <img src="https://www.shutterstock.com/image-photo/close-woman-smiling-teeth-before-260nw-1799915665.jpg" alt="After">
+                <img src="https://www.absolutedental.com/wp-content/uploads/2023/08/Before-and-after-shots-1024x576.jpg" alt="Teeth Whitening After">
                 <div class="after-label">After</div>
               </div>
             </div>
@@ -446,11 +453,11 @@
           <div class="before-after-card">
             <div class="before-after-images">
               <div class="before-image">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5fzw19uGzvH4II8fEjeKTBw3zUhLGaiYfMg&s" alt="Before">
+                <img src="https://www.patelbeachesorthodontics.com/assets/images/before-after/14.jpg" alt="Orthodontics Before">
                 <div class="before-label">Before</div>
               </div>
               <div class="after-image">
-                <img src="https://www.absolutedental.com/wp-content/uploads/2023/08/Before-and-after-shots-1024x576.jpg" alt="After">
+                <img src="https://www.patelbeachesorthodontics.com/assets/images/before-after/14.jpg" alt="Orthodontics After">
                 <div class="after-label">After</div>
               </div>
             </div>
@@ -465,36 +472,17 @@
           <div class="before-after-card">
             <div class="before-after-images">
               <div class="before-image">
-                <img src="https://www.shutterstock.com/image-photo/close-woman-smiling-teeth-before-260nw-1799915665.jpg" alt="Before">
+                <img src="https://www.dcof1.net/wp-content/uploads/2023/06/before-and-after-dental-treatment.jpg" alt="Dental Surgery Before">
                 <div class="before-label">Before</div>
               </div>
               <div class="after-image">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5fzw19uGzvH4II8fEjeKTBw3zUhLGaiYfMg&s" alt="After">
+                <img src="https://www.dcof1.net/wp-content/uploads/2023/06/before-and-after-dental-treatment.jpg" alt="Dental Surgery After">
                 <div class="after-label">After</div>
               </div>
             </div>
             <div class="p-3">
               <h5>Dental Implant Restoration</h5>
               <p class="text-muted">Complete smile restoration with implants</p>
-              <div class="rating-stars">★★★★★</div>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-6" data-category="cosmetic">
-          <div class="before-after-card">
-            <div class="before-after-images">
-              <div class="before-image">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5fzw19uGzvH4II8fEjeKTBw3zUhLGaiYfMg&s" alt="Before">
-                <div class="before-label">Before</div>
-              </div>
-              <div class="after-image">
-                <img src="https://www.absolutedental.com/wp-content/uploads/2023/08/Before-and-after-shots-1024x576.jpg" alt="After">
-                <div class="after-label">After</div>
-              </div>
-            </div>
-            <div class="p-3">
-              <h5>Porcelain Veneers</h5>
-              <p class="text-muted">Complete smile makeover with veneers</p>
               <div class="rating-stars">★★★★★</div>
             </div>
           </div>
@@ -522,6 +510,20 @@
       </div>
     </div>
   </section>
+
+  <!-- Video Modal -->
+  <div class="modal fade" id="videoModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        <button type="button" class="btn-close ms-auto me-2 mt-2" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="modal-body p-0">
+          <div class="ratio ratio-16x9">
+            <iframe id="videoFrame" src="" title="Video Testimonial" allowfullscreen loading="lazy"></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- Book Now Button -->
   <a href="appointment.html" class="book-now-btn">
@@ -576,17 +578,38 @@
       });
     }
 
-    // Video player functionality
-    function playVideo(videoId) {
-      // Simulate video playback
-      alert(`Playing video: ${videoId}\n\nIn a real implementation, this would open a video player or modal with the actual video content.`);
-      
-      // Track video play event
-      gtag('event', 'video_testimonial_play', {
-        event_category: 'testimonials',
-        event_label: videoId
+    // Video modal functionality
+    const videoModalEl = document.getElementById('videoModal');
+    const videoFrame = document.getElementById('videoFrame');
+    const videoModal = videoModalEl ? new bootstrap.Modal(videoModalEl) : null;
+
+    document.querySelectorAll('.video-placeholder').forEach(placeholder => {
+      placeholder.addEventListener('click', () => {
+        if (!videoModalEl || !videoFrame || !videoModal) return;
+
+        const videoUrl = placeholder.getAttribute('data-video');
+        if (!videoUrl) return;
+
+        const autoplaySeparator = videoUrl.includes('?') ? '&' : '?';
+        videoFrame.src = `${videoUrl}${autoplaySeparator}autoplay=1`;
+        videoModal.show();
+
+        const title =
+          placeholder.closest('.video-testimonial')?.querySelector('h4')?.textContent ||
+          'Video Testimonial';
+
+        gtag('event', 'video_testimonial_play', {
+          event_category: 'testimonials',
+          event_label: title
+        });
       });
-    }
+    });
+
+    videoModalEl?.addEventListener('hidden.bs.modal', () => {
+      if (videoFrame) {
+        videoFrame.src = '';
+      }
+    });
 
     // Track testimonial interactions
     document.querySelectorAll('.testimonial-card, .video-testimonial, .before-after-card').forEach(item => {

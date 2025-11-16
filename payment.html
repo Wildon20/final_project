@@ -37,7 +37,7 @@
 
     .payment-hero {
       background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
-                  url('https://images.unsplash.com/photo-1559757148-5c350d0d3c56?q=80&w=2070&auto=format&fit=crop') center/cover;
+                  url('https://c8.alamy.com/comp/2WKR31M/insurance-payment-concept-individuals-ensure-home-security-through-policy-showcasing-timely-premium-payment-and-claim-benefits-assurance-in-property-safety-flat-vector-illustration-2WKR31M.jpg') center/cover;
       color: white;
       padding: 6rem 0;
       text-align: center;
@@ -135,6 +135,10 @@
       padding: 2rem;
       margin-bottom: 1rem;
       transition: all 0.3s ease;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
 
     .payment-plan:hover {
@@ -151,6 +155,14 @@
       font-size: 2rem;
       font-weight: bold;
       color: var(--accent);
+    }
+
+    .payment-plan ul {
+      flex-grow: 1;
+    }
+
+    .payment-plan button {
+      margin-top: 1rem;
     }
 
     .security-badge {
@@ -185,6 +197,60 @@
       transform: translateY(-5px);
       color: white;
     }
+
+    @media (max-width: 991.98px) {
+      .payment-hero {
+        padding: 4rem 0;
+      }
+
+      .payment-card,
+      .payment-plan {
+        padding: 1.75rem;
+      }
+    }
+
+    @media (max-width: 767.98px) {
+      .payment-hero h1 {
+        font-size: 2.25rem;
+      }
+
+      .payment-hero p {
+        font-size: 1.05rem;
+      }
+
+      .payment-method {
+        text-align: left;
+      }
+
+      .payment-method-icon {
+        font-size: 1.75rem;
+      }
+
+      .payment-card,
+      .payment-plan {
+        padding: 1.5rem;
+      }
+    }
+
+    @media (max-width: 575.98px) {
+      .payment-hero {
+        padding: 3.5rem 0;
+      }
+
+      .payment-card,
+      .payment-plan {
+        padding: 1.25rem;
+      }
+
+      .payment-plan button,
+      .payment-method {
+        width: 100%;
+      }
+
+      .payment-method {
+        text-align: center;
+      }
+    }
   </style>
 </head>
 <body>
@@ -201,6 +267,10 @@
           <li class="nav-item"><a class="nav-link" href="services.html">Services</a></li>
           <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
           <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="testimonials.html">Testimonials</a></li>
+          <li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
+          <li class="nav-item"><a class="nav-link" href="patient-portal.html">Patient Portal</a></li>
+          <li class="nav-item"><a class="nav-link active" href="payment.html">Payment</a></li>
           <li class="nav-item">
             <button id="themeToggle" class="btn btn-outline-light ms-3">🌙</button>
           </li>
@@ -285,7 +355,7 @@
     <div class="container">
       <h2 class="text-center mb-5">Choose Your Payment Method</h2>
       <div class="row g-4">
-        <div class="col-md-6 col-lg-3">
+        <div class="col-sm-6 col-lg-3">
           <div class="payment-method text-center" data-method="credit">
             <i class="fas fa-credit-card payment-method-icon"></i>
             <h5>Credit/Debit Cards</h5>
@@ -293,7 +363,7 @@
             <small class="text-muted">Secure online processing</small>
           </div>
         </div>
-        <div class="col-md-6 col-lg-3">
+        <div class="col-sm-6 col-lg-3">
           <div class="payment-method text-center" data-method="carecredit">
             <i class="fas fa-heart payment-method-icon"></i>
             <h5>CareCredit</h5>
@@ -301,7 +371,7 @@
             <small class="text-muted">Apply online in minutes</small>
           </div>
         </div>
-        <div class="col-md-6 col-lg-3">
+        <div class="col-sm-6 col-lg-3">
           <div class="payment-method text-center" data-method="insurance">
             <i class="fas fa-shield-alt payment-method-icon"></i>
             <h5>Insurance</h5>
@@ -309,7 +379,7 @@
             <small class="text-muted">We handle the paperwork</small>
           </div>
         </div>
-        <div class="col-md-6 col-lg-3">
+        <div class="col-sm-6 col-lg-3">
           <div class="payment-method text-center" data-method="payment-plan">
             <i class="fas fa-calendar-alt payment-method-icon"></i>
             <h5>Payment Plans</h5>
@@ -326,7 +396,7 @@
     <div class="container">
       <h2 class="text-center mb-5">Flexible Payment Plans</h2>
       <div class="row g-4">
-        <div class="col-lg-4">
+        <div class="col-md-6 col-lg-4">
           <div class="payment-plan text-center" data-plan="basic">
             <h4>Basic Plan</h4>
             <div class="plan-price mb-3">$99/month</div>
@@ -339,7 +409,7 @@
             <button class="btn btn-outline-primary" onclick="selectPlan('basic')">Select Plan</button>
           </div>
         </div>
-        <div class="col-lg-4">
+        <div class="col-md-6 col-lg-4">
           <div class="payment-plan text-center" data-plan="premium">
             <h4>Premium Plan</h4>
             <div class="plan-price mb-3">$199/month</div>
@@ -353,7 +423,7 @@
             <button class="btn btn-primary" onclick="selectPlan('premium')">Select Plan</button>
           </div>
         </div>
-        <div class="col-lg-4">
+        <div class="col-md-6 col-lg-4">
           <div class="payment-plan text-center" data-plan="family">
             <h4>Family Plan</h4>
             <div class="plan-price mb-3">$299/month</div>

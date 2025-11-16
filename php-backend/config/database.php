@@ -1,24 +1,44 @@
 <?php
 class Database {
-    private $host = "localhost";
-    private $db_name = "drt_dental_smart";
-    private $username = "root";
-    private $password = "";
+    private $host;
+    private $db_name;
+    private $username;
+    private $password;
+    private $port;
     private $conn;
+
+    public function __construct() {
+        // Prefer Railway / Docker env vars, fallback to local defaults
+        $this->host = getenv('DB_HOST') ?: 'localhost';
+        $this->db_name = getenv('DB_NAME') ?: 'drt_dental_smart';
+        $this->username = getenv('DB_USER') ?: 'root';
+        $this->password = getenv('DB_PASSWORD') ?: '';
+        $this->port = getenv('DB_PORT') ?: '3306';
+    }
 
     public function getConnection() {
         $this->conn = null;
         
         try {
+            $dsn = "mysql:host={$this->host};port={$this->port};dbname={$this->db_name};charset=utf8mb4";
             $this->conn = new PDO(
-                "mysql:host=" . $this->host . ";dbname=" . $this->db_name,
+                $dsn,
                 $this->username,
-                $this->password
+                $this->password,
+                [
+                    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+                    PDO::ATTR_PERSISTENT => false
+                ]
             );
-            $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $this->conn->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
         } catch(PDOException $exception) {
-            echo "Connection error: " . $exception->getMessage();
+            http_response_code(500);
+            echo json_encode([
+                'success' => false,
+                'message' => 'Database connection failed',
+                'error' => $exception->getMessage()
+            ]);
+            exit;
         }
         
         return $this->conn;
