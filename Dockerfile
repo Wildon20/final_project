@@ -21,6 +21,7 @@ RUN chown -R www-data:www-data /var/www/html
 RUN printf "\n<Directory /var/www/html>\n\
     AllowOverride All\n\
     Require all granted\n\
+    DirectoryIndex index.html index.php\n\
 </Directory>\n" >> /etc/apache2/apache2.conf
 
 # Expose HTTP

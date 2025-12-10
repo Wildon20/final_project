@@ -188,6 +188,10 @@ class DentalAPI {
         return await this.makeRequest('auth.php?action=login', 'POST', { email, password });
     }
 
+    static async getCurrentPatient() {
+        return await this.makeRequest('auth.php?action=me', 'GET');
+    }
+
     // Medical Records API
     static async getMedicalRecords(patientId) {
         const response = await this.makeRequest(`medicalRecords.php?patient_id=${patientId}`);

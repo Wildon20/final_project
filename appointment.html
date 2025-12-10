@@ -406,15 +406,6 @@
                     </select>
                   </div>
                   <div class="col-12">
-                    <label for="urgency" class="form-label">How soon do you need this appointment?</label>
-                    <select class="form-control" id="urgency" name="urgency">
-                      <option value="routine">Routine - Within 2 weeks</option>
-                      <option value="soon">Soon - Within 1 week</option>
-                      <option value="urgent">Urgent - Within 2-3 days</option>
-                      <option value="emergency">Emergency - Same day</option>
-                    </select>
-                  </div>
-                  <div class="col-12">
                     <label for="notes" class="form-label">Additional Notes</label>
                     <textarea class="form-control" id="notes" name="notes" rows="3" 
                               placeholder="Any specific concerns or requests..."></textarea>
@@ -425,23 +416,16 @@
             <div class="col-lg-4">
               <div class="payment-options">
                 <h4><i class="fas fa-credit-card payment-icon"></i>Payment Options</h4>
-                <p>Choose how you'd like to pay for your treatment:</p>
+                <p>Choose how you'd like to pay for your treatment: <span class="text-danger">*</span></p>
                 <div class="form-check mb-2">
                   <input class="form-check-input" type="radio" name="paymentMethod" id="insurance" value="insurance">
                   <label class="form-check-label" for="insurance">Use Insurance</label>
                 </div>
-                <div class="form-check mb-2">
-                  <input class="form-check-input" type="radio" name="paymentMethod" id="selfPay" value="selfPay">
-                  <label class="form-check-label" for="selfPay">Self Pay</label>
-                </div>
-                <div class="form-check mb-2">
-                  <input class="form-check-input" type="radio" name="paymentMethod" id="paymentPlan" value="paymentPlan">
-                  <label class="form-check-label" for="paymentPlan">Payment Plan</label>
-                </div>
                 <div class="form-check">
-                  <input class="form-check-input" type="radio" name="paymentMethod" id="careCredit" value="careCredit">
-                  <label class="form-check-label" for="careCredit">CareCredit</label>
+                  <input class="form-check-input" type="radio" name="paymentMethod" id="onlineCredit" value="onlineCredit">
+                  <label class="form-check-label" for="onlineCredit">Online Credit</label>
                 </div>
+                <small class="text-muted d-block mt-2"><span class="text-danger">*</span> Required</small>
               </div>
             </div>
           </div>
@@ -621,6 +605,120 @@
         }
       } catch (_) {}
     })();
+
+    // Auto-fill patient data if logged in
+    async function autoFillPatientData() {
+      try {
+        // Check if user is authenticated
+        if (!window.DentalFrontend || !DentalFrontend.isAuthenticated()) {
+          return; // Not logged in, skip auto-fill
+        }
+
+        // Get current patient data
+        const response = await DentalAPI.getCurrentPatient();
+        
+        if (response && response.success && response.data) {
+          const patient = response.data;
+          
+          // Fill in patient information fields (Step 3)
+          if (patient.first_name) {
+            const firstNameField = document.getElementById('firstName');
+            if (firstNameField) firstNameField.value = patient.first_name;
+          }
+          
+          if (patient.last_name) {
+            const lastNameField = document.getElementById('lastName');
+            if (lastNameField) lastNameField.value = patient.last_name;
+          }
+          
+          if (patient.email) {
+            const emailField = document.getElementById('email');
+            if (emailField) emailField.value = patient.email;
+          }
+          
+          if (patient.phone) {
+            const phoneField = document.getElementById('phone');
+            if (phoneField) phoneField.value = patient.phone;
+          }
+          
+          if (patient.date_of_birth) {
+            const dobField = document.getElementById('dateOfBirth');
+            if (dobField) dobField.value = patient.date_of_birth;
+          }
+          
+          if (patient.gender) {
+            const genderField = document.getElementById('gender');
+            if (genderField) genderField.value = patient.gender;
+          }
+          
+          // Build address string from components
+          if (patient.street_address || patient.city || patient.postal_code) {
+            const addressParts = [];
+            if (patient.street_address) addressParts.push(patient.street_address);
+            if (patient.city) addressParts.push(patient.city);
+            if (patient.postal_code) addressParts.push(patient.postal_code);
+            if (patient.country) addressParts.push(patient.country);
+            
+            const addressField = document.getElementById('address');
+            if (addressField && addressParts.length > 0) {
+              addressField.value = addressParts.join(', ');
+            }
+          }
+          
+          // Emergency contact
+          if (patient.emergency_contact_name) {
+            const emergencyContactField = document.getElementById('emergencyContact');
+            if (emergencyContactField) {
+              let contactValue = patient.emergency_contact_name;
+              if (patient.emergency_contact_relationship) {
+                contactValue += ` (${patient.emergency_contact_relationship})`;
+              }
+              emergencyContactField.value = contactValue;
+            }
+          }
+          
+          if (patient.emergency_contact_phone) {
+            const emergencyPhoneField = document.getElementById('emergencyPhone');
+            if (emergencyPhoneField) emergencyPhoneField.value = patient.emergency_contact_phone;
+          }
+          
+          // Insurance information
+          if (patient.insurance_provider) {
+            const insuranceProviderField = document.getElementById('insuranceProvider');
+            if (insuranceProviderField) insuranceProviderField.value = patient.insurance_provider;
+          }
+          
+          if (patient.insurance_member_id) {
+            const memberIdField = document.getElementById('memberId');
+            if (memberIdField) memberIdField.value = patient.insurance_member_id;
+          }
+          
+          if (patient.insurance_group_number) {
+            const groupNumberField = document.getElementById('groupNumber');
+            if (groupNumberField) groupNumberField.value = patient.insurance_group_number;
+          }
+          
+          // Set new patient checkbox based on whether patient exists
+          const newPatientCheckbox = document.getElementById('newPatient');
+          if (newPatientCheckbox) {
+            newPatientCheckbox.checked = false; // Existing patient
+          }
+          
+          console.log('Patient data auto-filled successfully');
+        }
+      } catch (error) {
+        console.warn('Could not auto-fill patient data:', error);
+        // Don't show error to user, just silently fail - they can still fill manually
+      }
+    }
+
+    // Call auto-fill when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+      // Wait a bit for API integration to be ready
+      setTimeout(() => {
+        autoFillPatientData();
+      }, 500);
+    });
     // Theme toggle functionality
     const toggleBtn = document.getElementById('themeToggle');
     const htmlEl = document.documentElement;
@@ -656,6 +754,11 @@
           document.getElementById(`step${currentStep}`).style.display = 'block';
           updateProgress();
           updateNavigation();
+          
+          // Auto-fill patient data when reaching step 3 (Patient Information)
+          if (currentStep === 3) {
+            autoFillPatientData();
+          }
         }
       }
     }
@@ -729,8 +832,53 @@
           alert('Please fill in all required fields to continue.');
           return false;
         }
+        
+        // Validate email format
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+          alert('Please enter a valid email address.');
+          return false;
+        }
+      } else if (currentStep === 4) {
+        // Validate terms consent
+        if (!document.getElementById('termsConsent').checked) {
+          alert('Please agree to the terms and conditions to continue.');
+          return false;
+        }
+        
+        // Validate payment method is selected
+        const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked');
+        if (!paymentMethod) {
+          alert('Please select a payment method before confirming.');
+          return false;
+        }
       }
       return true;
+    }
+
+    function formatDate(dateString) {
+      if (!dateString) return 'Not selected';
+      const date = new Date(dateString + 'T00:00:00');
+      const options = { year: 'numeric', month: 'long', day: 'numeric' };
+      return date.toLocaleDateString('en-US', options);
+    }
+
+    function formatTime(timeString) {
+      if (!timeString) return 'Not selected';
+      const [hours, minutes] = timeString.split(':');
+      const hour = parseInt(hours);
+      const ampm = hour >= 12 ? 'PM' : 'AM';
+      const displayHour = hour % 12 || 12;
+      return `${displayHour}:${minutes} ${ampm}`;
+    }
+
+    function formatPaymentMethod(method) {
+      if (!method) return 'Not selected';
+      const methods = {
+        'insurance': 'Use Insurance',
+        'onlineCredit': 'Online Credit'
+      };
+      return methods[method] || method;
     }
 
     function updateAppointmentSummary() {
@@ -742,14 +890,16 @@
       const lastName = document.getElementById('lastName').value;
       const email = document.getElementById('email').value;
       const phone = document.getElementById('phone').value;
+      const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked')?.value;
 
       summary.innerHTML = `
         <div class="row">
           <div class="col-md-6">
             <h5>Service Details</h5>
             <p><strong>Service:</strong> ${selectedService ? selectedService.querySelector('h5').textContent : 'Not selected'}</p>
-            <p><strong>Date:</strong> ${date || 'Not selected'}</p>
-            <p><strong>Time:</strong> ${time || 'Not selected'}</p>
+            <p><strong>Date:</strong> ${formatDate(date)}</p>
+            <p><strong>Time:</strong> ${formatTime(time)}</p>
+            <p><strong>Payment Method:</strong> ${formatPaymentMethod(paymentMethod)}</p>
           </div>
           <div class="col-md-6">
             <h5>Patient Information</h5>
@@ -765,6 +915,9 @@
     document.getElementById('appointmentForm').addEventListener('submit', async function(e) {
       e.preventDefault();
 
+      const submitBtn = document.getElementById('submitBtn');
+      const originalBtnText = submitBtn.innerHTML;
+
       // Double-check authentication at submit time
       if (!window.DentalFrontend || !DentalFrontend.isAuthenticated()) {
         alert('Please login first in Patient Portal, then try booking again.');
@@ -776,6 +929,7 @@
         return;
       }
 
+      // Validate required fields
       if (!document.getElementById('termsConsent').checked) {
         alert('Please agree to the terms and conditions to continue.');
         return;
@@ -787,21 +941,48 @@
         return;
       }
 
+      const appointmentDate = document.getElementById('appointmentDate').value;
+      const appointmentTime = document.getElementById('appointmentTime').value;
+      
+      if (!appointmentDate || !appointmentTime) {
+        alert('Please select both date and time for your appointment.');
+        return;
+      }
+
+      // Validate date is not in the past
+      const selectedDate = new Date(appointmentDate + 'T00:00:00');
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      if (selectedDate < today) {
+        alert('Please select a date that is not in the past.');
+        return;
+      }
+
+      const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked')?.value;
+      if (!paymentMethod) {
+        alert('Please select a payment method.');
+        return;
+      }
+
+      // Disable submit button to prevent double submission
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Booking Appointment...';
+
       const payload = {
         // Use canonical service code expected by backend (matches services.code)
         service: selectedService.getAttribute('data-service'),
         service_name: selectedService.querySelector('h5').textContent,
-        appointment_date: document.getElementById('appointmentDate').value,
-        appointment_time: document.getElementById('appointmentTime').value,
-        urgency: document.getElementById('urgency').value || 'routine',
+        appointment_date: appointmentDate,
+        appointment_time: appointmentTime,
+        urgency: 'routine', // Default urgency
         notes: document.getElementById('notes').value || '',
-        payment_method: (document.querySelector('input[name="paymentMethod"]:checked')?.value) || 'selfPay'
+        payment_method: paymentMethod
       };
 
       try {
         const res = await DentalAPI.createAppointment(payload);
         if (res?.success) {
-          alert('Thank you! Your appointment has been booked successfully.');
+          alert('Thank you! Your appointment has been booked successfully. You will receive a confirmation email shortly.');
 
           // Reset form and go back to step 1
           this.reset();
@@ -812,25 +993,49 @@
           updateProgress();
           updateNavigation();
           document.querySelectorAll('.service-option').forEach(opt => opt.classList.remove('selected'));
+          
+          // Reset payment method selection
+          document.querySelectorAll('input[name="paymentMethod"]').forEach(radio => {
+            radio.checked = false;
+          });
         } else {
           alert(res?.message || 'Failed to book appointment. Please try again.');
         }
       } catch (err) {
+        console.error('Appointment booking error:', err);
         if (err && err.message && err.message.includes('401')) {
           alert('Your session expired. Please login again in Patient Portal, then try booking.');
           if (window.DentalFrontend) {
             DentalFrontend.logout();
             DentalFrontend.requireAuth('appointment.html');
           }
+        } else if (err && err.message && err.message.includes('time slot is already booked')) {
+          alert('This time slot is already booked. Please select a different date or time.');
         } else {
-          alert('Failed to book appointment. Please try again.');
+          alert(err?.message || 'Failed to book appointment. Please check your connection and try again.');
         }
+      } finally {
+        // Re-enable submit button
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalBtnText;
       }
     });
 
     // Set minimum date to today
     const today = new Date().toISOString().split('T')[0];
-    document.getElementById('appointmentDate').min = today;
+    const dateInput = document.getElementById('appointmentDate');
+    if (dateInput) {
+      dateInput.min = today;
+      dateInput.addEventListener('change', function() {
+        const selectedDate = new Date(this.value + 'T00:00:00');
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        if (selectedDate < today) {
+          alert('Please select a date that is not in the past.');
+          this.value = today.toISOString().split('T')[0];
+        }
+      });
+    }
   </script>
 </body>
 </html>
