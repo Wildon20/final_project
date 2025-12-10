@@ -148,6 +148,10 @@
       color: var(--accent);
     }
 
+    .step-item.hidden {
+      display: none;
+    }
+
     .step-line {
       position: absolute;
       top: 25px;
@@ -606,7 +610,7 @@
       } catch (_) {}
     })();
 
-    // Auto-fill patient data if logged in
+    // Auto-fill patient data if logged in and hide step 3 for existing patients
     async function autoFillPatientData() {
       try {
         // Check if user is authenticated
@@ -619,6 +623,48 @@
         
         if (response && response.success && response.data) {
           const patient = response.data;
+          
+          // Mark as existing patient
+          isExistingPatient = true;
+          
+          // Hide Step 3 (Patient Information) for existing patients
+          const step3Element = document.getElementById('step3');
+          if (step3Element) {
+            step3Element.style.display = 'none';
+          }
+          
+          // Hide step 3 indicator in navigation
+          const step3Indicator = document.querySelector('.step-item:nth-child(3)');
+          if (step3Indicator) {
+            step3Indicator.classList.add('hidden');
+          }
+          
+          // Adjust total steps
+          totalSteps = 3;
+          
+          // Adjust step 4 to be step 3 visually
+          const step4Indicator = document.querySelector('.step-item:nth-child(4)');
+          if (step4Indicator) {
+            const step4Number = step4Indicator.querySelector('.step-number');
+            if (step4Number) {
+              step4Number.textContent = '3';
+            }
+            const step4Label = step4Indicator.querySelector('h6');
+            if (step4Label) {
+              step4Label.textContent = 'Confirmation';
+            }
+            // Remove the step line since step 3 is hidden
+            const step4Line = step4Indicator.querySelector('.step-line');
+            if (step4Line) {
+              step4Line.remove();
+            }
+          }
+          
+          // Update step labels for better clarity
+          const step2Indicator = document.querySelector('.step-item:nth-child(2) .step-number');
+          if (step2Indicator) {
+            step2Indicator.textContent = '2';
+          }
           
           // Fill in patient information fields (Step 3)
           if (patient.first_name) {
@@ -712,11 +758,13 @@
       }
     }
 
-    // Call auto-fill when page loads
+    // Call auto-fill when page loads and initialize step visibility
     document.addEventListener('DOMContentLoaded', function() {
       // Wait a bit for API integration to be ready
-      setTimeout(() => {
-        autoFillPatientData();
+      setTimeout(async () => {
+        await autoFillPatientData();
+        // Update progress bar initial state
+        updateProgress();
       }, 500);
     });
     // Theme toggle functionality
@@ -732,7 +780,8 @@
 
     // Appointment booking functionality
     let currentStep = 1;
-    const totalSteps = 4;
+    let totalSteps = 4;
+    let isExistingPatient = false;
 
     // Service selection
     document.querySelectorAll('.service-option').forEach(option => {
@@ -751,14 +800,15 @@
         if (currentStep < totalSteps) {
           document.getElementById(`step${currentStep}`).style.display = 'none';
           currentStep++;
+          
+          // Skip step 3 if existing patient
+          if (isExistingPatient && currentStep === 3) {
+            currentStep = 4; // Jump directly to confirmation
+          }
+          
           document.getElementById(`step${currentStep}`).style.display = 'block';
           updateProgress();
           updateNavigation();
-          
-          // Auto-fill patient data when reaching step 3 (Patient Information)
-          if (currentStep === 3) {
-            autoFillPatientData();
-          }
         }
       }
     }
@@ -767,6 +817,12 @@
       if (currentStep > 1) {
         document.getElementById(`step${currentStep}`).style.display = 'none';
         currentStep--;
+        
+        // Skip step 3 if existing patient
+        if (isExistingPatient && currentStep === 3) {
+          currentStep = 2; // Go back to step 2
+        }
+        
         document.getElementById(`step${currentStep}`).style.display = 'block';
         updateProgress();
         updateNavigation();
@@ -774,12 +830,36 @@
     }
 
     function updateProgress() {
-      const progress = (currentStep / totalSteps) * 100;
+      // Calculate progress based on current step and total steps
+      const progress = (currentStep / (isExistingPatient ? 3 : 4)) * 100;
       document.getElementById('progressBar').style.width = progress + '%';
       
       // Update step indicators
       document.querySelectorAll('.step-item').forEach((item, index) => {
-        if (index + 1 <= currentStep) {
+        // Skip step 3 indicator if existing patient
+        if (isExistingPatient && index === 2) {
+          item.classList.remove('active');
+          return; // Skip step 3 indicator
+        }
+        
+        // For existing patients, step 4 (index 3) should activate when on step 4
+        // For new patients, each step activates normally
+        let shouldBeActive = false;
+        
+        if (isExistingPatient) {
+          // Step 1 (index 0): active when currentStep >= 1
+          // Step 2 (index 1): active when currentStep >= 2
+          // Step 3 (index 2): skip (hidden)
+          // Step 4 (index 3): active when currentStep >= 4 (but shown as step 3)
+          if (index === 0 && currentStep >= 1) shouldBeActive = true;
+          else if (index === 1 && currentStep >= 2) shouldBeActive = true;
+          else if (index === 3 && currentStep >= 4) shouldBeActive = true;
+        } else {
+          // Normal flow for new patients
+          if (index + 1 <= currentStep) shouldBeActive = true;
+        }
+        
+        if (shouldBeActive) {
           item.classList.add('active');
         } else {
           item.classList.remove('active');
@@ -796,7 +876,7 @@
         prevBtn.style.display = 'none';
         nextBtn.style.display = 'inline-block';
         submitBtn.style.display = 'none';
-      } else if (currentStep === totalSteps) {
+      } else if (currentStep === totalSteps || (currentStep === 4 && isExistingPatient)) {
         prevBtn.style.display = 'inline-block';
         nextBtn.style.display = 'none';
         submitBtn.style.display = 'inline-block';
@@ -822,7 +902,8 @@
           alert('Please select both date and time to continue.');
           return false;
         }
-      } else if (currentStep === 3) {
+      } else if (currentStep === 3 && !isExistingPatient) {
+        // Only validate step 3 if it's shown (for new patients)
         const firstName = document.getElementById('firstName').value;
         const lastName = document.getElementById('lastName').value;
         const email = document.getElementById('email').value;
@@ -839,7 +920,7 @@
           alert('Please enter a valid email address.');
           return false;
         }
-      } else if (currentStep === 4) {
+      } else if (currentStep === 4 || (currentStep === 3 && isExistingPatient)) {
         // Validate terms consent
         if (!document.getElementById('termsConsent').checked) {
           alert('Please agree to the terms and conditions to continue.');
@@ -881,16 +962,36 @@
       return methods[method] || method;
     }
 
-    function updateAppointmentSummary() {
+    async function updateAppointmentSummary() {
       const summary = document.getElementById('appointmentSummary');
       const selectedService = document.querySelector('.service-option.selected');
       const date = document.getElementById('appointmentDate').value;
       const time = document.getElementById('appointmentTime').value;
-      const firstName = document.getElementById('firstName').value;
-      const lastName = document.getElementById('lastName').value;
-      const email = document.getElementById('email').value;
-      const phone = document.getElementById('phone').value;
       const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked')?.value;
+
+      // Get patient information - either from form or from API
+      let firstName = document.getElementById('firstName')?.value || '';
+      let lastName = document.getElementById('lastName')?.value || '';
+      let email = document.getElementById('email')?.value || '';
+      let phone = document.getElementById('phone')?.value || '';
+
+      // If existing patient and form fields are empty, get from API
+      if (isExistingPatient && (!firstName || !lastName)) {
+        try {
+          if (window.DentalFrontend && DentalFrontend.isAuthenticated()) {
+            const response = await DentalAPI.getCurrentPatient();
+            if (response && response.success && response.data) {
+              const patient = response.data;
+              firstName = patient.first_name || firstName;
+              lastName = patient.last_name || lastName;
+              email = patient.email || email;
+              phone = patient.phone || phone;
+            }
+          }
+        } catch (error) {
+          console.warn('Could not fetch patient data for summary:', error);
+        }
+      }
 
       summary.innerHTML = `
         <div class="row">
@@ -906,6 +1007,7 @@
             <p><strong>Name:</strong> ${firstName} ${lastName}</p>
             <p><strong>Email:</strong> ${email}</p>
             <p><strong>Phone:</strong> ${phone}</p>
+            ${isExistingPatient ? '<p class="text-muted small"><i class="fas fa-check-circle text-success me-1"></i>Using your saved profile information</p>' : ''}
           </div>
         </div>
       `;
@@ -984,20 +1086,9 @@
         if (res?.success) {
           alert('Thank you! Your appointment has been booked successfully. You will receive a confirmation email shortly.');
 
-          // Reset form and go back to step 1
-          this.reset();
-          currentStep = 1;
-          document.querySelectorAll('.booking-step').forEach((step, index) => {
-            step.style.display = index === 0 ? 'block' : 'none';
-          });
-          updateProgress();
-          updateNavigation();
-          document.querySelectorAll('.service-option').forEach(opt => opt.classList.remove('selected'));
-          
-          // Reset payment method selection
-          document.querySelectorAll('input[name="paymentMethod"]').forEach(radio => {
-            radio.checked = false;
-          });
+          // Refresh the page to clear all form data
+          window.location.reload();
+          return; // Exit early since page is refreshing
         } else {
           alert(res?.message || 'Failed to book appointment. Please try again.');
         }

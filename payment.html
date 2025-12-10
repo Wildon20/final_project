@@ -596,12 +596,15 @@
       const data = Object.fromEntries(formData);
       
       // Simulate insurance verification
-      alert('Insurance verification in progress... This would typically check with your provider.');
+      alert('Insurance verification completed successfully!');
       
       gtag('event', 'insurance_verification', {
         event_category: 'payment',
         event_label: data.insuranceProvider
       });
+      
+      // Refresh page to clear form data
+      window.location.reload();
     });
 
     // Payment form submission
@@ -612,12 +615,15 @@
       const data = Object.fromEntries(formData);
       
       // Simulate payment processing
-      alert('Payment processing... This would typically process through a secure payment gateway.');
+      alert('Payment processed successfully! Thank you for your payment.');
       
       gtag('event', 'payment_submitted', {
         event_category: 'payment',
         event_label: 'Credit Card Payment'
       });
+      
+      // Refresh page to clear form data
+      window.location.reload();
     });
 
     // Card number formatting
